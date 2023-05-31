@@ -3,7 +3,10 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 body{
-  color: white;  
+  font-size: 1rem;
+  h1 {
+    margin: 0;    
+  } 
 }
 `;
 

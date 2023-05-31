@@ -5,4 +5,9 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  @apply text-grayDark;
+}
+
+h1 {
+  @apply text-grayDark text-4xl;
 }
