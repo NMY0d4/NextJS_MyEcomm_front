@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 body{
-  color: white;
+  color: white;  
 }
 `;
 
