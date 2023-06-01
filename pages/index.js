@@ -9,3 +9,7 @@ export default function HomePage() {
     </>
   );
 }
+
+export function getServerSideProps() {
+  const featuredProductId = '647600560fd315f22ea770a8'
+}

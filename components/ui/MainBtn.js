@@ -4,6 +4,12 @@ import css from 'styled-jsx/css';
 const StyledButton = styled.button`
   padding: 5px 15px;
   border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  svg {
+    height: 16px;
+    margin-right: 5px;
+  }
   ${(props) =>
     props.white &&
     !props.outline &&
@@ -17,19 +23,23 @@ const StyledButton = styled.button`
       background-color: transparent;
       border: 1px solid var(--primary);
     `}
-  ${(props) =>
+    ${(props) =>
     props.primary &&
     css`
       border: 1px solid var(--primaryDark);
       background-color: var(--primaryDark);
       color: white;
     `}
-  ${(props) =>
+    ${(props) =>
     props.size === 'l' &&
     css`
       font-size: 1.2rem;
       padding: 10px 20px;
-    `}
+      svg {
+        height: 20px;
+        margin-right: 5px;
+      }
+    `};
 `;
 
 export default function MainBtn({ children, ...rest }) {

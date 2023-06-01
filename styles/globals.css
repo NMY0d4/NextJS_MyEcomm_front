@@ -9,5 +9,5 @@ body {
 }
 
 h1 {
-  @apply text-grayDark text-4xl;
+  @apply text-grayDark text-5xl;
 }
