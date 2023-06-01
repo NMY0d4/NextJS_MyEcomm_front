@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import Center from './Center';
 
 const StyledHeader = styled.header`
-  background-color: #68d6da;
+  background-color: var(--primaryLight);
   font-weight: bold;
 `;
 
 const Logo = styled(Link)`
-  color: #107275;
+  color: var(--primaryDark);
 `;
 
 const Wrapper = styled.div`
@@ -23,7 +23,7 @@ const StyledNav = styled.nav`
 `;
 
 const NavLink = styled(Link)`
-  color: #107275;
+  color: var(--primaryDark);
 `;
 
 export default function Header() {

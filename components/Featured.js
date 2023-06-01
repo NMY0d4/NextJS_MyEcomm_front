@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Image from 'next/legacy/image';
 
 const Bg = styled.div`
-  background-color: #68d6da;
+  background-color: var(--primaryLight);
   padding: 50px 0;
 `;
 
