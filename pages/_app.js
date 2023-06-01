@@ -16,6 +16,9 @@ const GlobalStyles = createGlobalStyle`
   --grayDark:#24312f;
 }
 
+*{
+  box-sizing: border-box;
+}
 
 body{
   font-size: 1rem;

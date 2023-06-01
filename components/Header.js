@@ -5,6 +5,7 @@ import Center from './Center';
 const StyledHeader = styled.header`
   background-color: var(--primaryLight);
   font-weight: bold;
+  border-bottom: 1px solid var(--primary);
 `;
 
 const Logo = styled(Link)`

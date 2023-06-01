@@ -2,17 +2,18 @@ import React from 'react';
 import Center from './Center';
 import styled from 'styled-components';
 import Image from 'next/legacy/image';
+import MainBtn from './ui/MainBtn';
 
 const Bg = styled.div`
   background-color: var(--primaryLight);
   padding: 50px 0;
 `;
 
-const Wrapper = styled.div`
+const ColumnsWrapper = styled.div`
   display: grid;
-  min-height: 20vh;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 30px;
+  min-height: 25vh;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 20px;
   img {
     max-width: 100%;
   }
@@ -20,7 +21,7 @@ const Wrapper = styled.div`
 
 const Desc = styled.p`
   font-size: 0.8rem;
-  padding-top: 0.5rem;
+  padding: 0.5rem;
 `;
 
 const Column = styled.div`
@@ -33,7 +34,7 @@ export default function Featured() {
   return (
     <Bg>
       <Center>
-        <Wrapper>
+        <ColumnsWrapper>
           <Column>
             <div>
               <h1>Pro anywhere</h1>
@@ -43,6 +44,12 @@ export default function Featured() {
                 repellat repudiandae impedit ratione illum fugiat esse
                 aspernatur ad delectus atque neque velit, eligendi debitis!
               </Desc>
+              <MainBtn white outline size='l'>
+                Read More
+              </MainBtn>
+              <MainBtn primary size='l'>
+                Add to cart
+              </MainBtn>
             </div>
           </Column>
           <Column className='relative'>
@@ -53,7 +60,7 @@ export default function Featured() {
               objectFit='contain'
             />
           </Column>
-        </Wrapper>
+        </ColumnsWrapper>
       </Center>
     </Bg>
   );
