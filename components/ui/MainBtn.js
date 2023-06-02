@@ -28,9 +28,17 @@ export const ButtonStyle = css`
       transition: all 0.3s;
       &:hover {
         background-color: var(--primaryDark);
-        color: var(--primaryLight);
+        color: var(--primaryVeryLight);
       }
     `}
+
+      ${(props) =>
+    props.block &&
+    css`
+      display: block;
+      width: 100%;
+    `}
+
     ${(props) =>
     props.primary &&
     !props.outline &&

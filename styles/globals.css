@@ -9,5 +9,9 @@ body {
 }
 
 h1 {
-  @apply text-grayDark text-5xl font-semibold;
+  @apply text-5xl font-semibold;
+}
+
+h2 {
+  @apply text-2xl font-semibold;
 }
