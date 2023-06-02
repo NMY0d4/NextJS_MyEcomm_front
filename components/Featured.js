@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Center from './Center';
 import styled from 'styled-components';
 import Image from 'next/legacy/image';
 import MainBtn from './ui/MainBtn';
 import ButtonLink from './ui/ButtonLink';
 import CartIcon from './icons/CartCart';
+import { CartContext } from '@/store/CartContext';
 
 const Bg = styled.div`
   background-color: var(--primaryLight);
@@ -40,6 +41,11 @@ const Column = styled.div`
 `;
 
 export default function Featured({ product }) {
+  const { addProduct } = useContext(CartContext);
+  function addFeaturedToCart() {
+    addProduct(product._id);
+  }
+
   return (
     <Bg>
       <Center>
@@ -56,7 +62,7 @@ export default function Featured({ product }) {
                 >
                   Read More
                 </ButtonLink>
-                <MainBtn primary>
+                <MainBtn primary onClick={addFeaturedToCart}>
                   <CartIcon />
                   Add to cart
                 </MainBtn>
