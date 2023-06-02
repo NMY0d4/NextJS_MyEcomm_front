@@ -3,6 +3,7 @@ import Center from './Center';
 import styled from 'styled-components';
 import Image from 'next/legacy/image';
 import MainBtn from './ui/MainBtn';
+import ButtonLink from './ui/ButtonLink';
 
 const Bg = styled.div`
   background-color: var(--primaryLight);
@@ -37,24 +38,23 @@ const Column = styled.div`
   align-items: center;
 `;
 
-export default function Featured() {
+export default function Featured({ product }) {
   return (
     <Bg>
       <Center>
         <ColumnsWrapper>
           <Column>
             <div>
-              <h1>Pro anywhere</h1>
-              <Desc>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptas qui sunt recusandae tenetur dolorem perferendis
-                repellat repudiandae impedit ratione illum fugiat esse
-                aspernatur ad delectus atque neque velit, eligendi debitis!
-              </Desc>
+              <h1>{product.productName}</h1>
+              <Desc>{product.description}</Desc>
               <ButtonsWrapper>
-                <MainBtn white outline>
+                <ButtonLink
+                  href={`/products/${product._id}`}
+                  white={1}
+                  outline={1}
+                >
                   Read More
-                </MainBtn>
+                </ButtonLink>
                 <MainBtn primary>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -74,6 +74,7 @@ export default function Featured() {
               alt='photo Macbook pro'
               layout='fill'
               objectFit='contain'
+              priority
             />
           </Column>
         </ColumnsWrapper>
