@@ -1,3 +1,4 @@
+import { CartContextProvider } from '@/store/CartContext';
 import '@/styles/globals.css';
 import { createGlobalStyle } from 'styled-components';
 
@@ -25,6 +26,7 @@ const GlobalStyles = createGlobalStyle`
 
 body{
   background-color: var(--primaryVeryLight);
+  color: var(--grayDark);
   
   font-size: 1rem;
   h1 {
@@ -37,7 +39,9 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyles />
-      <Component {...pageProps} />
+      <CartContextProvider>
+        <Component {...pageProps} />
+      </CartContextProvider>
     </>
   );
 }

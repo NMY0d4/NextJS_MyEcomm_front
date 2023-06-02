@@ -3,13 +3,27 @@ import Header from '@/components/Header';
 import NewProducts from '@/components/NewProducts';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
+import { useState, useEffect } from 'react';
 
 export default function HomePage({ featuredProduct, newProducts }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []); // Une fois que le composant est monté, on met à jour l'état isLoading à false
+
   return (
     <>
-      <Header />
-      <Featured product={featuredProduct} />
-      <NewProducts products={newProducts} />
+      {isLoading ? (
+        // Afficher un indicateur de chargement ici
+        <p>Loading...</p>
+      ) : (
+        <>
+          <Header />
+          <Featured product={featuredProduct} />
+          <NewProducts products={newProducts} />
+        </>
+      )}
     </>
   );
 }

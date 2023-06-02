@@ -65,7 +65,7 @@ export default function Featured({ product }) {
           </Column>
           <Column className='relative'>
             <Image
-              src='https://nextjs-gmweb-ecommerce.s3.amazonaws.com/1685551271157/3a5a1527-4931-46f3-a960-2b9e8749e7a0.png'
+              src={product.images[0]}
               alt='photo Macbook pro'
               layout='fill'
               objectFit='contain'
