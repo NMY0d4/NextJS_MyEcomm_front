@@ -19,6 +19,8 @@ const GlobalStyles = createGlobalStyle`
   --grayDark:#24312f;
   --white: #fff;
   --black: #000;
+
+  --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 *{

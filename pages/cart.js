@@ -1,7 +1,9 @@
 import Center from '@/components/Center';
 import MainBtn from '@/components/ui/MainBtn';
+import Table from '@/components/ui/Table';
 import { CartContext } from '@/store/CartContext';
 import axios from 'axios';
+import Image from 'next/legacy/image';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -16,6 +18,29 @@ const Box = styled.div`
   background-color: var(--white);
   border-radius: 10px;
   padding: 30px;
+`;
+
+const ProductInfoCell = styled.td`
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+`;
+
+const ProductImageBox = styled.div`
+  background-color: var(--white);
+  width: 90px;
+  height: 90px;
+  padding: 15px;
+  margin-right: 1rem;
+  box-shadow: var(--box-shadow);
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
 `;
 
 export default function CartPage() {
@@ -40,7 +65,7 @@ export default function CartPage() {
               <div>Your cart is empty</div>
             ) : (
               <>
-                <table>
+                <Table>
                   <thead>
                     <tr>
                       <th>Product</th>
@@ -51,18 +76,35 @@ export default function CartPage() {
                   <tbody>
                     {products.map((product) => (
                       <tr key={product._id}>
-                        <td>{product.productName}</td>
+                        <ProductInfoCell>
+                          <ProductImageBox>
+                            <ImageWrapper>
+                              <Image
+                                src={product.images[0]}
+                                alt={product.productName}
+                                layout='fill'
+                                objectFit='contain'
+                                priority
+                              />
+                            </ImageWrapper>
+                          </ProductImageBox>
+                          {product.productName}
+                        </ProductInfoCell>
                         <td>
                           {
                             cartProducts.filter((id) => id === product._id)
                               .length
                           }
                         </td>
-                        <td>Price</td>
+                        <td>
+                          $
+                          {cartProducts.filter((id) => id === product._id)
+                            .length * product.price}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
-                </table>
+                </Table>
               </>
             )}
           </Box>
