@@ -1,8 +1,14 @@
 import styled from 'styled-components';
+import ProductBox from './ProductBox';
 
 const ProductsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  margin: 0 auto;
+  max-width: 1000px;
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 30px;
+  padding-top: 30px;
 `;
 
 export default function NewProducts({ products }) {
@@ -10,7 +16,7 @@ export default function NewProducts({ products }) {
     <ProductsGrid>
       {products.length > 0 &&
         products.map((product) => (
-          <div key={product._id}>{product.productName}</div>
+          <ProductBox key={product._id} {...product} />
         ))}
     </ProductsGrid>
   );

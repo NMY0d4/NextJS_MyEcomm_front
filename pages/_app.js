@@ -6,6 +6,7 @@ const GlobalStyles = createGlobalStyle`
 :root {
   --primary: #11999E;       
   --primaryLight:#68d6da;
+  --primaryVeryLight: #aff4f7;
   --primaryDark: #107275;
   --secondary: #31d4ac;
   --secondaryLight: #61f3cf;
@@ -14,6 +15,8 @@ const GlobalStyles = createGlobalStyle`
   --gray: #40514E;
   --grayLight:#96ada9;
   --grayDark:#24312f;
+  --white: #fff;
+  --black: #000;
 }
 
 *{
@@ -21,6 +24,8 @@ const GlobalStyles = createGlobalStyle`
 }
 
 body{
+  background-color: var(--primaryVeryLight);
+  
   font-size: 1rem;
   h1 {
     margin: 0;    

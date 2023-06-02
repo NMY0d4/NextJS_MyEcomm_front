@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Center from './Center';
 
 const StyledHeader = styled.header`
-  background-color: var(--primaryLight);
+  background-color: var(--primaryVeryLight);
   font-weight: bold;
   border-bottom: 1px solid var(--primary);
 `;
