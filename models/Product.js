@@ -1,26 +1,31 @@
 import mongoose, { Schema, model, models } from 'mongoose';
 
-const ProductSchema = new Schema({
-  productName: {
-    type: String,
-    required: true,
+const ProductSchema = new Schema(
+  {
+    productName: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    images: { type: [String] },
+    category: { type: mongoose.Types.ObjectId, ref: 'Category' },
+    properties: { type: Object },
+    collectionName: {
+      type: String,
+      default: 'products',
+    },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  images: { type: [String] },
-  category: { type: mongoose.Types.ObjectId, ref: 'Category' },
-  properties: { type: Object },
-  collectionName: {
-    type: String,
-    default: 'products',
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 ProductSchema.set('toJSON', {
   versionKey: false,
