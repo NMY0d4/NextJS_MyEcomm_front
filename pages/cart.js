@@ -7,6 +7,7 @@ import Image from 'next/legacy/image';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs';
+import Input from '@/components/ui/Input';
 
 const Columnswrapper = styled.div`
   display: grid;
@@ -48,9 +49,24 @@ const QuantityLAbel = styled.span`
   padding: 0 4px;
 `;
 
+const CityHolder = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+const initialState = {
+  name: '',
+  email: '',
+  city: '',
+  postalCode: '',
+  streetAddress: '',
+  country: '',
+};
+
 export default function CartPage() {
   const { cartProducts, addProduct, removeProduct } = useContext(CartContext);
   const [products, setProducts] = useState([]);
+  const [customer, setCustomer] = useState(initialState);
 
   useEffect(() => {
     if (cartProducts.length > 0) {
@@ -62,6 +78,8 @@ export default function CartPage() {
         .catch((err) => {
           throw new Error(err);
         });
+    } else {
+      setProducts([]);
     }
   }, [cartProducts]);
 
@@ -84,7 +102,13 @@ export default function CartPage() {
     return totalPrice;
   }
 
-  const totalPrice = calculateTotalPrice();
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCustomer((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   return (
     <>
@@ -92,6 +116,7 @@ export default function CartPage() {
         <Columnswrapper>
           <Box>
             <h2>Cart</h2>
+            {console.log(products)}
             {!products?.length ? (
               <div>Your cart is empty</div>
             ) : (
@@ -159,7 +184,7 @@ export default function CartPage() {
                     <tr>
                       <td></td>
                       <td></td>
-                      <td>${totalPrice}</td>
+                      <td>${calculateTotalPrice()}</td>
                     </tr>
                   </tbody>
                 </Table>
@@ -170,11 +195,55 @@ export default function CartPage() {
           {!!cartProducts?.length && (
             <Box>
               <h2>Order information</h2>
-              <input type='text' placeholder='address' />
-              <input type='text' placeholder='address2' />
-              <MainBtn block primary>
-                Continue to payment
-              </MainBtn>
+              <form method='post' action='/api/checkout'>
+                <Input
+                  type='text'
+                  placeholder='Name'
+                  name='name'
+                  value={customer.name}
+                  onChange={handleInputChange}
+                />
+                <Input
+                  type='text'
+                  placeholder='Email'
+                  name='email'
+                  value={customer.email}
+                  onChange={handleInputChange}
+                />
+                <CityHolder>
+                  <Input
+                    type='text'
+                    placeholder='City'
+                    name='city'
+                    value={customer.city}
+                    onChange={handleInputChange}
+                  />
+                  <Input
+                    type='text'
+                    placeholder='Postal Code'
+                    name='postalCode'
+                    value={customer.postalCode}
+                    onChange={handleInputChange}
+                  />
+                </CityHolder>
+                <Input
+                  type='text'
+                  placeholder='Street Address'
+                  name='streetAddress'
+                  value={customer.streetAddress}
+                  onChange={handleInputChange}
+                />
+                <Input
+                  type='text'
+                  placeholder='Country'
+                  name='country'
+                  value={customer.country}
+                  onChange={handleInputChange}
+                />
+                <MainBtn type='submit' block primary>
+                  Continue to payment
+                </MainBtn>
+              </form>
             </Box>
           )}
         </Columnswrapper>
