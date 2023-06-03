@@ -61,7 +61,7 @@ const initialState = {
   postalCode: '',
   streetAddress: '',
   country: '',
-  products: '',
+  cartProducts: '',
 };
 
 export default function CartPage() {
@@ -103,6 +103,17 @@ export default function CartPage() {
     return totalPrice;
   }
 
+  async function goToPayment() {
+    const response = await axios.post('/api/checkout', {
+      ...customer,
+      cartProducts,
+    });
+    setCustomer(initialState);
+    if (response.data.url) {
+      window.location = response.data.url;
+    }
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCustomer((prevState) => ({
@@ -110,6 +121,21 @@ export default function CartPage() {
       [name]: value,
     }));
   };
+
+  if (window.location.href.includes('success')) {
+    return (
+      <>
+        <Center>
+          <Columnswrapper>
+            <Box>
+              <h1>Thanks for your order!</h1>
+              <p>We will email you when your order will be sent.</p>
+            </Box>
+          </Columnswrapper>
+        </Center>
+      </>
+    );
+  }
 
   return (
     <>
@@ -196,60 +222,55 @@ export default function CartPage() {
           {!!cartProducts?.length && (
             <Box>
               <h2>Order information</h2>
-              <form method='post' action='/api/checkout'>
+
+              <Input
+                type='text'
+                placeholder='Name'
+                name='name'
+                value={customer.name}
+                onChange={handleInputChange}
+              />
+              <Input
+                type='text'
+                placeholder='Email'
+                name='email'
+                value={customer.email}
+                onChange={handleInputChange}
+              />
+              <CityHolder>
                 <Input
                   type='text'
-                  placeholder='Name'
-                  name='name'
-                  value={customer.name}
+                  placeholder='City'
+                  name='city'
+                  value={customer.city}
                   onChange={handleInputChange}
                 />
                 <Input
                   type='text'
-                  placeholder='Email'
-                  name='email'
-                  value={customer.email}
+                  placeholder='Postal Code'
+                  name='postalCode'
+                  value={customer.postalCode}
                   onChange={handleInputChange}
                 />
-                <CityHolder>
-                  <Input
-                    type='text'
-                    placeholder='City'
-                    name='city'
-                    value={customer.city}
-                    onChange={handleInputChange}
-                  />
-                  <Input
-                    type='text'
-                    placeholder='Postal Code'
-                    name='postalCode'
-                    value={customer.postalCode}
-                    onChange={handleInputChange}
-                  />
-                </CityHolder>
-                <Input
-                  type='text'
-                  placeholder='Street Address'
-                  name='streetAddress'
-                  value={customer.streetAddress}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  type='text'
-                  placeholder='Country'
-                  name='country'
-                  value={customer.country}
-                  onChange={handleInputChange}
-                />
-                <input
-                  type='hidden'
-                  name='products'
-                  value={cartProducts.join(',')}
-                />
-                <MainBtn type='submit' block primary>
-                  Continue to payment
-                </MainBtn>
-              </form>
+              </CityHolder>
+              <Input
+                type='text'
+                placeholder='Street Address'
+                name='streetAddress'
+                value={customer.streetAddress}
+                onChange={handleInputChange}
+              />
+              <Input
+                type='text'
+                placeholder='Country'
+                name='country'
+                value={customer.country}
+                onChange={handleInputChange}
+              />
+
+              <MainBtn onClick={goToPayment} block primary>
+                Continue to payment
+              </MainBtn>
             </Box>
           )}
         </Columnswrapper>

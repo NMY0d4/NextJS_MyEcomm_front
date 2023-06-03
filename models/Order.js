@@ -1,4 +1,4 @@
-const { Schema } = require('mongoose');
+import { Schema, model, models } from 'mongoose';
 
 const OrderSchema = new Schema({
   line_items: Object,
@@ -11,4 +11,4 @@ const OrderSchema = new Schema({
   paid: Boolean,
 });
 
-const Order = models?.Order || model('Order', OrderSchema);
+export const Order = models?.Order || model('Order', OrderSchema);
