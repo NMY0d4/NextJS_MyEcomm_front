@@ -65,9 +65,11 @@ const initialState = {
 };
 
 export default function CartPage() {
-  const { cartProducts, addProduct, removeProduct } = useContext(CartContext);
+  const { cartProducts, addProduct, removeProduct, clearCart } =
+    useContext(CartContext);
   const [products, setProducts] = useState([]);
   const [customer, setCustomer] = useState(initialState);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (cartProducts.length > 0) {
@@ -83,6 +85,13 @@ export default function CartPage() {
       setProducts([]);
     }
   }, [cartProducts]);
+
+  useEffect(() => {
+    if (window.location.href.includes('success')) {
+      setIsSuccess(true);
+      clearCart();
+    }
+  }, []);
 
   function addOneThisProduct(id) {
     addProduct(id);
@@ -122,13 +131,13 @@ export default function CartPage() {
     }));
   };
 
-  if (window.location.href.includes('success')) {
+  if (isSuccess) {
     return (
       <>
         <Center>
           <Columnswrapper>
             <Box>
-              <h1>Thanks for your order!</h1>
+              <h1 className='mb-4'>Thanks for your order!</h1>
               <p>We will email you when your order will be sent.</p>
             </Box>
           </Columnswrapper>
@@ -143,7 +152,6 @@ export default function CartPage() {
         <Columnswrapper>
           <Box>
             <h2>Cart</h2>
-            {console.log(products)}
             {!products?.length ? (
               <div>Your cart is empty</div>
             ) : (
