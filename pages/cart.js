@@ -49,16 +49,42 @@ const QuantityLAbel = styled.span`
 `;
 
 export default function CartPage() {
-  const { cartProducts } = useContext(CartContext);
+  const { cartProducts, addProduct, removeProduct } = useContext(CartContext);
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     if (cartProducts.length > 0) {
-      axios.post(`/api/cart`, { ids: cartProducts }).then((res) => {
-        setProducts(res.data);
-      });
+      axios
+        .post(`/api/cart`, { ids: cartProducts })
+        .then((res) => {
+          setProducts(res.data);
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
     }
   }, [cartProducts]);
+
+  function addOneThisProduct(id) {
+    addProduct(id);
+  }
+
+  function removeOneThisProduct(id) {
+    removeProduct(id);
+  }
+
+  function calculateTotalPrice() {
+    let totalPrice = 0;
+
+    products.forEach((product) => {
+      const quantity = cartProducts.filter((id) => id === product._id).length;
+      totalPrice += quantity * product.price;
+    });
+
+    return totalPrice;
+  }
+
+  const totalPrice = calculateTotalPrice();
 
   return (
     <>
@@ -97,9 +123,12 @@ export default function CartPage() {
                           </ProductImageBox>
                           {product.productName}
                         </ProductInfoCell>
+
                         {/* ---------- QUANTITY ------------ */}
                         <td>
-                          <MainBtn>
+                          <MainBtn
+                            onClick={() => removeOneThisProduct(product._id)}
+                          >
                             <BsFillCartDashFill
                               style={{
                                 transform: 'scaleX(-1)',
@@ -112,7 +141,9 @@ export default function CartPage() {
                                 .length
                             }
                           </QuantityLAbel>
-                          <MainBtn>
+                          <MainBtn
+                            onClick={() => addOneThisProduct(product._id)}
+                          >
                             <BsFillCartPlusFill />
                           </MainBtn>
                         </td>
@@ -125,12 +156,17 @@ export default function CartPage() {
                         </td>
                       </tr>
                     ))}
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td>${totalPrice}</td>
+                    </tr>
                   </tbody>
                 </Table>
               </>
             )}
           </Box>
-                        {/* ---------- PAYMENT BOX ------------ */}
+          {/* ---------- PAYMENT BOX ------------ */}
           {!!cartProducts?.length && (
             <Box>
               <h2>Order information</h2>
