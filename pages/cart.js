@@ -6,6 +6,7 @@ import axios from 'axios';
 import Image from 'next/legacy/image';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs';
 
 const Columnswrapper = styled.div`
   display: grid;
@@ -43,6 +44,10 @@ const ImageWrapper = styled.div`
   height: 100%;
 `;
 
+const QuantityLAbel = styled.span`
+  padding: 0 4px;
+`;
+
 export default function CartPage() {
   const { cartProducts } = useContext(CartContext);
   const [products, setProducts] = useState([]);
@@ -76,6 +81,8 @@ export default function CartPage() {
                   <tbody>
                     {products.map((product) => (
                       <tr key={product._id}>
+                        {/* ---------- INFOS ------------ */}
+
                         <ProductInfoCell>
                           <ProductImageBox>
                             <ImageWrapper>
@@ -90,12 +97,27 @@ export default function CartPage() {
                           </ProductImageBox>
                           {product.productName}
                         </ProductInfoCell>
+                        {/* ---------- QUANTITY ------------ */}
                         <td>
-                          {
-                            cartProducts.filter((id) => id === product._id)
-                              .length
-                          }
+                          <MainBtn>
+                            <BsFillCartDashFill
+                              style={{
+                                transform: 'scaleX(-1)',
+                              }}
+                            />
+                          </MainBtn>
+                          <QuantityLAbel>
+                            {
+                              cartProducts.filter((id) => id === product._id)
+                                .length
+                            }
+                          </QuantityLAbel>
+                          <MainBtn>
+                            <BsFillCartPlusFill />
+                          </MainBtn>
                         </td>
+                        {/* ---------- PRICE ------------ */}
+
                         <td>
                           $
                           {cartProducts.filter((id) => id === product._id)
@@ -108,6 +130,7 @@ export default function CartPage() {
               </>
             )}
           </Box>
+                        {/* ---------- PAYMENT BOX ------------ */}
           {!!cartProducts?.length && (
             <Box>
               <h2>Order information</h2>
