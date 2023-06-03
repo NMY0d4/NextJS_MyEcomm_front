@@ -46,7 +46,7 @@ const ImageWrapper = styled.div`
 `;
 
 const QuantityLAbel = styled.span`
-  padding: 0 4px;
+  padding: 0 3px 0 1px;
 `;
 
 const CityHolder = styled.div`
@@ -61,6 +61,7 @@ const initialState = {
   postalCode: '',
   streetAddress: '',
   country: '',
+  products: '',
 };
 
 export default function CartPage() {
@@ -239,6 +240,11 @@ export default function CartPage() {
                   name='country'
                   value={customer.country}
                   onChange={handleInputChange}
+                />
+                <input
+                  type='hidden'
+                  name='products'
+                  value={cartProducts.join(',')}
                 />
                 <MainBtn type='submit' block primary>
                   Continue to payment
