@@ -2,9 +2,8 @@ import { mongooseConnect } from '@/lib/mongoose';
 const stripe = require('stripe')(process.env.STRIPE_SK);
 import { buffer } from 'micro';
 
-const endpointSecret = process.env.STRIPE_ES;
-
 export default async function handler(req, res) {
+  const endpointSecret = process.env.STRIPE_ES;
   await mongooseConnect();
   const sig = req.headers['stripe-signature'];
 
@@ -23,11 +22,11 @@ export default async function handler(req, res) {
 
   // Handle the event
   switch (event.type) {
-    case 'payment_intent.succeeded':
-      const paymentIntentSucceeded = event.data.object;
-      console.log(paymentIntentSucceeded);
+    case 'checkout.session.completed':
+      const data = event.data.object;
+      const orderId = data.metadata.orderId;
+      console.log(orderId);
       break;
-    // ... handle other event types
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
