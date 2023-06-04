@@ -87,11 +87,18 @@ export default function CartPage() {
   }, [cartProducts]);
 
   useEffect(() => {
-    if (window.location.href.includes('success')) {
+    //  ----- IF PAYMENT SUCCESS
+    if (window.location.href.includes('success')) {      
       setIsSuccess(true);
-      clearCart();
     }
   }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      clearCart(); 
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccess]);
 
   function addOneThisProduct(id) {
     addProduct(id);
@@ -111,7 +118,7 @@ export default function CartPage() {
 
     return totalPrice;
   }
-
+  // ------------- PAYMENT FUNCTION -----------------
   async function goToPayment() {
     const response = await axios.post('/api/checkout', {
       ...customer,
