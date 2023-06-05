@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     res.json('should be a POST request');
     return;
   }
-  console.log(req.body.customer);
+
   const {
     name,
     email,
