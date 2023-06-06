@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-  @apply text-5xl font-semibold;
+  @apply text-4xl font-semibold  pt-8;
 }
 
 h2 {

@@ -9,12 +9,11 @@ export default function HomePage({ featuredProduct, newProducts }) {
 
   useEffect(() => {
     setIsLoading(false);
-  }, []); // Une fois que le composant est monté, on met à jour l'état isLoading à false
-
+  }, []); // Once the component is mounted, we update the isLoading status to false
   return (
     <>
       {isLoading ? (
-        // Afficher un indicateur de chargement ici
+        // Display a loading indicator here
         <p>Loading...</p>
       ) : (
         <>

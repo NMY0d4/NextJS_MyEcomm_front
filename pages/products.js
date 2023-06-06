@@ -2,20 +2,28 @@ import Center from '@/components/Center';
 import ProductsGrid from '@/components/ui/ProductsGrid';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
-const Title = styled.h1`
-  font-size: 1.5rem;
-`;
+export default function ProductsPage({ products }) {
+  const [isLoading, setIsLoading] = useState(true);
 
-export default function productsPage({ products }) {
+  useEffect(() => {
+    setIsLoading(false);
+  }, []); // Once the component is mounted, we update the isLoading status to false
+
   return (
     <>
-      <Center>
-        <Title className='p-8'>All products</Title>
-        <ProductsGrid products={products} />
-      </Center>
+      {isLoading ? (
+        // Display a loading indicator here
+        <p>Loading...</p>
+      ) : (
+        <>
+          <Center>
+            <h1>All products</h1>
+            <ProductsGrid products={products} />
+          </Center>
+        </>
+      )}
     </>
   );
 }
