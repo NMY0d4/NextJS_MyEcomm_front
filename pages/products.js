@@ -1,4 +1,5 @@
 import Center from '@/components/Center';
+import ProductsGrid from '@/components/ui/ProductsGrid';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
 import React from 'react';
@@ -8,12 +9,12 @@ const Title = styled.h1`
   font-size: 1.5rem;
 `;
 
-export default function products({ products }) {
+export default function productsPage({ products }) {
   return (
     <>
       <Center>
         <Title className='p-8'>All products</Title>
-        <div>{products.length}</div>
+        <ProductsGrid products={products} />
       </Center>
     </>
   );
