@@ -1,4 +1,5 @@
 import Center from '@/components/Center';
+import ProductImages from '@/components/ProductImages';
 import WhiteBox from '@/components/ui/WhiteBox';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
@@ -19,15 +20,7 @@ export default function ProductPage({ product }) {
       <Center>
         <ColWrapper>
           <WhiteBox>
-            <div className='relative h-full w-full p-2'>
-              <Image
-                src={product.images[0]}
-                alt={`photo ${product.productName}`}
-                layout='fill'
-                objectFit='contain'
-                priority
-              />
-            </div>
+            <ProductImages images={product.images} />
           </WhiteBox>
           <div>
             <h1>{product.productName}</h1>
