@@ -8,18 +8,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs';
 import Input from '@/components/ui/Input';
+import WhiteBox from '@/components/ui/WhiteBox';
 
 const Columnswrapper = styled.div`
   display: grid;
   grid-template-columns: 1.3fr 0.7fr;
   gap: 40px;
   margin-top: 40px;
-`;
-
-const Box = styled.div`
-  background-color: var(--white);
-  border-radius: 10px;
-  padding: 30px;
 `;
 
 const ProductInfoCell = styled.td`
@@ -88,16 +83,16 @@ export default function CartPage() {
 
   useEffect(() => {
     //  ----- IF PAYMENT SUCCESS
-    if (window.location.href.includes('success')) {      
+    if (window.location.href.includes('success')) {
       setIsSuccess(true);
     }
   }, []);
 
   useEffect(() => {
     if (isSuccess) {
-      clearCart(); 
+      clearCart();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess]);
 
   function addOneThisProduct(id) {
@@ -143,10 +138,10 @@ export default function CartPage() {
       <>
         <Center>
           <Columnswrapper>
-            <Box>
+            <WhiteBox>
               <h1 className='mb-4'>Thanks for your order!</h1>
               <p>We will email you when your order will be sent.</p>
-            </Box>
+            </WhiteBox>
           </Columnswrapper>
         </Center>
       </>
@@ -157,7 +152,7 @@ export default function CartPage() {
     <>
       <Center>
         <Columnswrapper>
-          <Box>
+          <WhiteBox>
             <h2>Cart</h2>
             {!products?.length ? (
               <div>Your cart is empty</div>
@@ -232,10 +227,10 @@ export default function CartPage() {
                 </Table>
               </>
             )}
-          </Box>
+          </WhiteBox>
           {/* ---------- PAYMENT BOX ------------ */}
           {!!cartProducts?.length && (
-            <Box>
+            <WhiteBox>
               <h2>Order information</h2>
 
               <Input
@@ -286,7 +281,7 @@ export default function CartPage() {
               <MainBtn onClick={goToPayment} block primary>
                 Continue to payment
               </MainBtn>
-            </Box>
+            </WhiteBox>
           )}
         </Columnswrapper>
       </Center>

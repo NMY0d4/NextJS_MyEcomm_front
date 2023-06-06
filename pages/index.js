@@ -32,6 +32,7 @@ export async function getServerSideProps() {
   const featuredProduct = JSON.parse(JSON.stringify(data1));
   const data2 = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
   const newProducts = JSON.parse(JSON.stringify(data2));
+  
   return {
     props: { featuredProduct, newProducts },
   };

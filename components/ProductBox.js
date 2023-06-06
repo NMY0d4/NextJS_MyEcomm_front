@@ -17,12 +17,7 @@ const WhiteBox = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  .img-product {
-    position: relative;
-    width: 100%;
-    min-height: 90px;
-  }
-`;
+  `;
 
 const Title = styled(Link)`
   font-size: large.9rem;

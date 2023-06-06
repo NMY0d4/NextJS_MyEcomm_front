@@ -9,9 +9,15 @@ body {
 }
 
 h1 {
-  @apply text-4xl font-semibold  pt-8;
+  @apply text-4xl font-semibold  py-8;
 }
 
 h2 {
   @apply text-2xl font-semibold p-4;
+}
+
+.img-product {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
 }
