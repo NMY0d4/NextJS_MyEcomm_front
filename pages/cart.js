@@ -78,6 +78,7 @@ export default function CartPage() {
         });
     } else {
       setProducts([]);
+      localStorage.removeItem('cart');
     }
   }, [cartProducts]);
 
@@ -101,6 +102,9 @@ export default function CartPage() {
 
   function removeOneThisProduct(id) {
     removeProduct(id);
+    if (cartProducts.length === 0) {
+      localStorage.removeItem('cart');
+    }
   }
 
   function calculateTotalPrice() {

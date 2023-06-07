@@ -42,7 +42,7 @@ export default function ProductPage({ product }) {
             <p>{product.description}</p>
             <PriceRow>
               <Price>${product.price}</Price>
-              <MainBtn primary onClick={() => addProduct(product._id)}>
+              <MainBtn primary onClick={() => {addProduct(product._id)}}>
                 <CartIcon /> Add to cart
               </MainBtn>
             </PriceRow>
