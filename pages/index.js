@@ -1,5 +1,6 @@
 import Featured from '@/components/Featured';
 import NewProducts from '@/components/NewProducts';
+import Loading from '@/components/ui/Loading';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
 import { useState, useEffect } from 'react';
@@ -14,7 +15,7 @@ export default function HomePage({ featuredProduct, newProducts }) {
     <>
       {isLoading ? (
         // Display a loading indicator here
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <>
           <Featured product={featuredProduct} />
@@ -32,7 +33,7 @@ export async function getServerSideProps() {
   const featuredProduct = JSON.parse(JSON.stringify(data1));
   const data2 = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
   const newProducts = JSON.parse(JSON.stringify(data2));
-  
+
   return {
     props: { featuredProduct, newProducts },
   };
