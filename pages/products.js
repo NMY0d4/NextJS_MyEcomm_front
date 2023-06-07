@@ -1,4 +1,5 @@
 import Center from '@/components/Center';
+import Loading from '@/components/ui/Loading';
 import ProductsGrid from '@/components/ui/ProductsGrid';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
@@ -15,7 +16,7 @@ export default function ProductsPage({ products }) {
     <>
       {isLoading ? (
         // Display a loading indicator here
-        <p>Loading...</p>
+        <Loading />
       ) : (
         <>
           <Center>
