@@ -12,9 +12,12 @@ import WhiteBox from '@/components/ui/WhiteBox';
 
 const Columnswrapper = styled.div`
   display: grid;
-  grid-template-columns: 1.3fr 0.7fr;
+  grid-template-columns: 1fr;
   gap: 40px;
   margin-top: 40px;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 1.3fr 0.7fr;
+  }
 `;
 
 const ProductInfoCell = styled.td`
@@ -25,13 +28,18 @@ const ProductInfoCell = styled.td`
 
 const ProductImageBox = styled.div`
   background-color: var(--white);
-  width: 90px;
-  height: 90px;
-  padding: 15px;
+  width: 70px;
+  height: 70px;
+  padding: 5px;
   margin-right: 1rem;
   box-shadow: var(--box-shadow);
   border-radius: 10px;
   overflow: hidden;
+  @media screen and (min-width: 768px) {
+    padding: 15px;
+    width: 90px;
+    height: 90px;
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -40,8 +48,14 @@ const ImageWrapper = styled.div`
   height: 100%;
 `;
 
-const QuantityLAbel = styled.span`
-  padding: 0 3px 0 1px;
+const QuantityLabel = styled.span`
+  padding: 3px;
+  margin-right: 4px;
+  display: block;
+  @media screen and (min-width: 768px) {
+    display: inline-block;
+    padding: 0 3px 0 1px;
+  }
 `;
 
 const CityHolder = styled.div`
@@ -191,7 +205,7 @@ export default function CartPage() {
                         </ProductInfoCell>
 
                         {/* ---------- QUANTITY ------------ */}
-                        <td>
+                        <td className='text-center'>
                           <MainBtn
                             onClick={() => removeOneThisProduct(product._id)}
                           >
@@ -201,12 +215,12 @@ export default function CartPage() {
                               }}
                             />
                           </MainBtn>
-                          <QuantityLAbel>
+                          <QuantityLabel>
                             {
                               cartProducts.filter((id) => id === product._id)
                                 .length
                             }
-                          </QuantityLAbel>
+                          </QuantityLabel>
                           <MainBtn
                             onClick={() => addOneThisProduct(product._id)}
                           >
