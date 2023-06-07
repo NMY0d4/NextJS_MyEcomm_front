@@ -12,7 +12,7 @@ const GlobalStyles = createGlobalStyle`
   --primaryDark: #107275;
   --secondary: #31d4ac;
   --secondaryLight: #61f3cf;
-  --secondaryDark: #2ead8e;
+  --secondaryDark: #25866e;
   --tertiary: #E4F9F5;
   --gray: #40514E;
   --grayLight:#96ada9;
@@ -25,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
 
 *{
   box-sizing: border-box;
+  
 }
 
 html {
