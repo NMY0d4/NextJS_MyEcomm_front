@@ -17,7 +17,7 @@ const WhiteBox = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  `;
+`;
 
 const Title = styled(Link)`
   font-size: large.9rem;
@@ -30,15 +30,21 @@ const ProductInfoBox = styled.div`
 `;
 
 const PriceRow = styled.div`
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: space-around;
   margin-top: 2px;
+  @media screen and (min-width: 768px) {
+    display: flex;
+  }
 `;
 
 const Price = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  @media screen and (min-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
 
 export default function ProductBox({
@@ -67,7 +73,6 @@ export default function ProductBox({
         <Title href={uri}>{title}</Title>
         <PriceRow>
           <Price>${price}</Price>
-
           <MainBtn onClick={() => addProduct(id)} primary outline>
             <CartIcon /> Add
           </MainBtn>

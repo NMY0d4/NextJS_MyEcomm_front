@@ -4,7 +4,7 @@ import Center from './Center';
 import { useContext, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
 // import { CgMenuRound } from 'react-icons/cg';
-import BarsIcon from './icons/bars';
+import BarsIcon from './icons/Bars';
 
 const StyledHeader = styled.header`
   background-color: var(--primaryVeryLight);
