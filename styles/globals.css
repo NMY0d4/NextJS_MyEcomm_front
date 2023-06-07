@@ -9,11 +9,21 @@ body {
 }
 
 h1 {
-  @apply text-4xl font-semibold  py-8;
+  @apply text-3xl font-semibold  py-6;
 }
 
 h2 {
-  @apply text-2xl font-semibold p-4;
+  @apply text-xl font-semibold p-2;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    @apply text-4xl font-semibold  py-8;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold p-4;
+  }
 }
 
 .img-product {

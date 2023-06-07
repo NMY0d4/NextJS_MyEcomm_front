@@ -14,11 +14,20 @@ const Bg = styled.div`
 
 const ColumnsWrapper = styled.div`
   display: grid;
-  min-height: 25vh;
-  grid-template-columns: 0.9fr 1.1fr;
+  grid-template-columns: 1fr;
   gap: 20px;
   img {
     max-width: 100%;
+  }
+  div:nth-child(1) {
+    order: 2;
+  }
+
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 0.9fr 1.1fr;
+    div:nth-child(1) {
+      order: 0;
+    }
   }
 `;
 
@@ -35,7 +44,7 @@ const Desc = styled.p`
 `;
 
 const Column = styled.div`
-  position: relative;
+  min-height: 25vh;
   display: flex;
   align-items: center;
 `;
@@ -69,14 +78,16 @@ export default function Featured({ product }) {
               </ButtonsWrapper>
             </div>
           </Column>
-          <Column className='relative'>
-            <Image
-              src={product.images[0]}
-              alt='photo Macbook pro'
-              layout='fill'
-              objectFit='contain'
-              priority
-            />
+          <Column>
+            <div className='relative w-full h-full'>
+              <Image
+                src={product.images[0]}
+                alt='photo Macbook pro'
+                layout='fill'
+                objectFit='contain'
+                priority
+              />
+            </div>
           </Column>
         </ColumnsWrapper>
       </Center>
