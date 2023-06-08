@@ -2,7 +2,7 @@ import Center from '@/components/Center';
 import ProductsGrid from '@/components/ui/ProductsGrid';
 import { Category } from '@/models/Category';
 import { Product } from '@/models/Product';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const CategoryHeader = styled.div`
@@ -33,7 +33,12 @@ const Filter = styled.div`
   }
 `;
 
-export default function CategoryPage({ category, products }) {
+export default function CategoryPage({
+  category,
+  subCategories,
+  products: originalProducts,
+}) {
+  const [products, setProducts] = useState(originalProducts);
   const [filtersValues, setFiltersValues] = useState(
     category.properties.map((p) => ({ name: p.name, value: 'all' }))
   );
@@ -46,6 +51,11 @@ export default function CategoryPage({ category, products }) {
       }));
     });
   }
+
+  useEffect(() => {
+    console.log(subCategories);
+    const catIds = [category._id, ...(subCategories?.map((c) => c._id) || [])];
+  }, [filtersValues]);
 
   return (
     <>
@@ -85,11 +95,10 @@ export async function getServerSideProps(context) {
   const catIds = [category._id, ...subCategories.map((c) => c._id)];
   const products = await Product.find({ category: catIds });
 
-  console.log(category);
-
   return {
     props: {
       category: JSON.parse(JSON.stringify(category)),
+      subCategories: JSON.parse(JSON.stringify(subCategories)),
       products: JSON.parse(JSON.stringify(products)),
     },
   };
