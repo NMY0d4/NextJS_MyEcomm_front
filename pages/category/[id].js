@@ -59,12 +59,14 @@ export default function CategoryPage({
     params.set('categories', catIds.join(','));
 
     filtersValues.forEach((f) => {
-      params.set(f.name, f.value);
+      if (f.value !== 'all') {
+        params.set(f.name, f.value);
+      }
     });
     const url = `/api/products?${params.toString()}`;
 
     axios.get(url).then((res) => {
-      console.log(res.data);
+      setProducts(res.data);
     });
   }, [filtersValues]);
 

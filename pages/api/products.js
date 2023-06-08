@@ -6,6 +6,11 @@ export default async function handle(req, res) {
   if (req.method === 'GET') {
     const { categories, ...filters } = req.query;
     console.log({ filters });
-    res.json(await Product.find({ category: categories.split(',') }));
+    res.json(
+      await Product.find({
+        category: categories.split(','),
+        properties: filters,
+      })
+    );
   }
 }
