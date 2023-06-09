@@ -5,13 +5,14 @@ export default async function handle(req, res) {
   await mongooseConnect();
 
   const { categories, ...filters } = req.query;
-  console.log({ filters });
+  // console.log({ filters });
   const productsQuery = {
     category: categories.split(','),
   };
-  if (Object.keys(filters).length > 0) { // Check for filters
+  if (Object.keys(filters).length > 0) {
+    // Check for filters
     productsQuery.properties = filters;
   }
-  console.log(productsQuery);
+  // console.log(productsQuery);
   res.json(await Product.find(productsQuery));
 }

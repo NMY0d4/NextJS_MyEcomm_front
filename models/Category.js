@@ -7,12 +7,7 @@ const CategorySchema = new Schema({
     required: true,
   },
   parent: { type: mongoose.Types.ObjectId, ref: 'Category' },
-  properties: [
-    {
-      name: { type: String },
-      values: { type: [String] },
-    },
-  ],
+  properties: [{ type: Object }],
   collectionName: {
     type: String,
     default: 'categories',
