@@ -57,7 +57,6 @@ export default function CategoryPage({
     const catIds = [category._id, ...(subCategories?.map((c) => c._id) || [])];
     const params = new URLSearchParams();
     params.set('categories', catIds.join(','));
-
     filtersValues.forEach((f) => {
       if (f.value !== 'all') {
         params.set(f.name, f.value);
@@ -83,7 +82,10 @@ export default function CategoryPage({
                   onChange={(e) =>
                     handleFilterChange(prop.name, e.target.value)
                   }
-                  value={filtersValues.find((f) => f.name === prop.name).value}
+                  value={
+                    filtersValues.find((f) => f.name === prop.name)?.value ||
+                    'all'
+                  }
                 >
                   <option value='all'>all</option>
                   {prop.values.map((val) => (
