@@ -43,6 +43,7 @@ export default function CategoryPage({
   const [filtersValues, setFiltersValues] = useState(
     category.properties.map((p) => ({ name: p.name, value: 'all' }))
   );
+  const [sort, setSort] = useState('price_desc');
 
   function handleFilterChange(filterName, filterValue) {
     setFiltersValues((prev) => {
@@ -55,8 +56,12 @@ export default function CategoryPage({
 
   useEffect(() => {
     const catIds = [category._id, ...(subCategories?.map((c) => c._id) || [])];
+    
     const params = new URLSearchParams();
+
     params.set('categories', catIds.join(','));
+    params.set('sort', sort);
+
     filtersValues.forEach((f) => {
       if (f.value !== 'all') {
         params.set(f.name, f.value);
@@ -69,7 +74,7 @@ export default function CategoryPage({
       console.log(res.data);
       setProducts(res.data);
     });
-  }, [filtersValues]);
+  }, [filtersValues, sort]);
 
   return (
     <>
@@ -98,6 +103,13 @@ export default function CategoryPage({
                 </select>
               </Filter>
             ))}
+            <Filter>
+              <span>Sorting:</span>
+              <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                <option value='price_asc'>price, lowest first</option>
+                <option value='price_desc'>price, highest first</option>
+              </select>
+            </Filter>
           </FiltersWrapper>
         </CategoryHeader>
         <ProductsGrid products={products} />
