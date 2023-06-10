@@ -1,5 +1,7 @@
 import Center from '@/components/Center';
+import Loading from '@/components/ui/Loading';
 import ProductsGrid from '@/components/ui/ProductsGrid';
+import Spinner from '@/components/ui/Spinner';
 import { Category } from '@/models/Category';
 import { Product } from '@/models/Product';
 import axios from 'axios';
@@ -39,11 +41,15 @@ export default function CategoryPage({
   subCategories,
   products: originalProducts,
 }) {
+  const defaultSorting = '_id-desc';
+  const defaultFilterValues = category.properties.map((p) => ({
+    name: p.name,
+    value: 'all',
+  }));
   const [products, setProducts] = useState(originalProducts);
-  const [filtersValues, setFiltersValues] = useState(
-    category.properties.map((p) => ({ name: p.name, value: 'all' }))
-  );
-  const [sort, setSort] = useState('_id-desc');
+  const [filtersValues, setFiltersValues] = useState(defaultFilterValues);
+  const [sort, setSort] = useState(defaultSorting);
+  const [loadingProducts, setLoadingProducts] = useState(false);
 
   function handleFilterChange(filterName, filterValue) {
     setFiltersValues((prev) => {
@@ -55,6 +61,10 @@ export default function CategoryPage({
   }
 
   useEffect(() => {
+    if (filtersValues === defaultFilterValues && sort === defaultSorting) {
+      return;
+    }
+    setLoadingProducts(true);
     const catIds = [category._id, ...(subCategories?.map((c) => c._id) || [])];
 
     const params = new URLSearchParams();
@@ -69,8 +79,8 @@ export default function CategoryPage({
     });
     const url = `/api/products?${params.toString()}`;
     axios.get(url).then((res) => {
-      console.log(res.data);
       setProducts(res.data);
+      setLoadingProducts(false);
     });
   }, [filtersValues, sort]);
 
@@ -112,7 +122,18 @@ export default function CategoryPage({
             </Filter>
           </FiltersWrapper>
         </CategoryHeader>
-        <ProductsGrid products={products} />
+        {loadingProducts && <Loading />}
+        {!loadingProducts && (
+          <div>
+            {products.length > 0 ? (
+              <ProductsGrid products={products} />
+            ) : (
+              <div className='mt-4 font-semibold text-primary'>
+                Sorry, no products found
+              </div>
+            )}
+          </div>
+        )}
       </Center>
     </>
   );
