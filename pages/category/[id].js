@@ -43,7 +43,7 @@ export default function CategoryPage({
   const [filtersValues, setFiltersValues] = useState(
     category.properties.map((p) => ({ name: p.name, value: 'all' }))
   );
-  const [sort, setSort] = useState('price_desc');
+  const [sort, setSort] = useState('_id-desc');
 
   function handleFilterChange(filterName, filterValue) {
     setFiltersValues((prev) => {
@@ -56,7 +56,7 @@ export default function CategoryPage({
 
   useEffect(() => {
     const catIds = [category._id, ...(subCategories?.map((c) => c._id) || [])];
-    
+
     const params = new URLSearchParams();
 
     params.set('categories', catIds.join(','));
@@ -68,8 +68,6 @@ export default function CategoryPage({
       }
     });
     const url = `/api/products?${params.toString()}`;
-    console.log(url);
-
     axios.get(url).then((res) => {
       console.log(res.data);
       setProducts(res.data);
@@ -104,10 +102,12 @@ export default function CategoryPage({
               </Filter>
             ))}
             <Filter>
-              <span>Sorting:</span>
+              <span>Sorting :</span>
               <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                <option value='price_asc'>price, lowest first</option>
-                <option value='price_desc'>price, highest first</option>
+                <option value='price-asc'>price, lowest first</option>
+                <option value='price-desc'>price, highest first</option>
+                <option value='_id-desc'>newest first</option>
+                <option value='_id-asc'>oldest first</option>
               </select>
             </Filter>
           </FiltersWrapper>
