@@ -11,19 +11,13 @@ export default async function handle(req, res) {
     category: categories.split(','),
   };
 
-  let filteredProducts = await Product.find(productsQuery);
-
   if (Object.keys(filters).length > 0) {
-    // Apply additional filters
-    filteredProducts = filteredProducts.filter((product) => {
-      for (const key in filters) {
-        if (product.properties[key] !== filters[key]) {
-          return false;
-        }
-      }
-      return true;
+    Object.keys(filters).forEach((filterName) => {
+      productsQuery[`properties.${filterName}`] = filters[filterName];
     });
   }
-  
-  res.json(filteredProducts);
+
+  console.log(productsQuery);
+  res.json(await Product.find(productsQuery));
 }
+
