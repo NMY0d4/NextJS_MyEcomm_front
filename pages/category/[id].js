@@ -63,8 +63,10 @@ export default function CategoryPage({
       }
     });
     const url = `/api/products?${params.toString()}`;
+    console.log(url);
 
     axios.get(url).then((res) => {
+      console.log(res.data);
       setProducts(res.data);
     });
   }, [filtersValues]);
