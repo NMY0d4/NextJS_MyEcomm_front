@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Center from './Center';
 import styled from 'styled-components';
 import Image from 'next/legacy/image';
@@ -51,8 +51,14 @@ const Column = styled.div`
 
 export default function Featured({ product }) {
   const { addProduct } = useContext(CartContext);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+
   function addFeaturedToCart() {
+    setIsAddingToCart(true);
     addProduct(product._id);
+    setTimeout(() => {
+      setIsAddingToCart(false);
+    }, 800);
   }
 
   return (
@@ -71,9 +77,25 @@ export default function Featured({ product }) {
                 >
                   Read More
                 </ButtonLink>
-                <MainBtn primary onClick={addFeaturedToCart}>
-                  <CartIcon />
-                  Add to cart
+                <MainBtn
+                  primary
+                  onClick={addFeaturedToCart}
+                  disabled={isAddingToCart}
+                  fixedSize
+                  style={{
+                    backgroundColor: isAddingToCart
+                      ? 'var(--grayLight)'
+                      : 'var(--primary)',
+                    color: isAddingToCart ? 'var(--grayDark)' : 'white',
+                  }}
+                >
+                  {isAddingToCart ? (
+                    'Adding...'
+                  ) : (
+                    <>
+                      <CartIcon /> Add to cart
+                    </>
+                  )}
                 </MainBtn>
               </ButtonsWrapper>
             </div>

@@ -5,6 +5,7 @@ export const ButtonStyle = css`
   border-radius: 5px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
 
@@ -12,6 +13,13 @@ export const ButtonStyle = css`
     height: 16px;
     margin-right: 5px;
   }
+
+  ${(props) =>
+    props.fixedSize &&
+    css`
+      width: 150px; /* Définissez la largeur fixe souhaitée */
+    `}
+
   ${(props) =>
     props.white &&
     !props.outline &&

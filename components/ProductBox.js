@@ -117,10 +117,7 @@ export default function ProductBox({
             objectFit='contain'
             priority
           />
-          <ImageOverlay
-            className={isAddingToCart ? 'show-overlay' : ''}
-            onClick={handleAddToCart}
-          >
+          <ImageOverlay className={isAddingToCart ? 'show-overlay' : ''}>
             <div className='overlay-text'>Added to Cart</div>
           </ImageOverlay>
         </div>
