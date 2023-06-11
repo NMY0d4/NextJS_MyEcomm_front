@@ -5,7 +5,7 @@ import Image from 'next/legacy/image';
 import MainBtn from './ui/MainBtn';
 import ButtonLink from './ui/ButtonLink';
 import CartIcon from './icons/CartCart';
-import { CartContext } from '@/store/CartContext';
+import { RevealWrapper } from 'next-reveal';
 
 const Bg = styled.div`
   background-color: var(--primaryLight);
@@ -50,7 +50,6 @@ const Column = styled.div`
 `;
 
 export default function Featured({ product }) {
-  const { addProduct } = useContext(CartContext);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   function addFeaturedToCart() {
@@ -67,41 +66,43 @@ export default function Featured({ product }) {
         <ColumnsWrapper>
           <Column>
             <div>
-              <h1>{product.productName}</h1>
-              <Desc>{product.description}</Desc>
-              <ButtonsWrapper>
-                <ButtonLink
-                  href={`/products/${product._id}`}
-                  white={1}
-                  outline={1}
-                >
-                  Read More
-                </ButtonLink>
-                <MainBtn
-                  primary
-                  onClick={addFeaturedToCart}
-                  disabled={isAddingToCart}
-                  fixedSize
-                  style={{
-                    backgroundColor: isAddingToCart
-                      ? 'var(--grayLight)'
-                      : 'var(--primary)',
-                    color: isAddingToCart ? 'var(--grayDark)' : 'white',
-                  }}
-                >
-                  {isAddingToCart ? (
-                    'Adding...'
-                  ) : (
-                    <>
-                      <CartIcon /> Add to cart
-                    </>
-                  )}
-                </MainBtn>
-              </ButtonsWrapper>
+              <RevealWrapper origin={'left'}>
+                <h1>{product.productName}</h1>
+                <Desc>{product.description}</Desc>
+                <ButtonsWrapper>
+                  <ButtonLink
+                    href={`/products/${product._id}`}
+                    white={1}
+                    outline={1}
+                  >
+                    Read More
+                  </ButtonLink>
+                  <MainBtn
+                    primary
+                    onClick={addFeaturedToCart}
+                    disabled={isAddingToCart}
+                    fixedSize
+                    style={{
+                      backgroundColor: isAddingToCart
+                        ? 'var(--grayLight)'
+                        : 'var(--primary)',
+                      color: isAddingToCart ? 'var(--grayDark)' : 'white',
+                    }}
+                  >
+                    {isAddingToCart ? (
+                      'Adding...'
+                    ) : (
+                      <>
+                        <CartIcon /> Add to cart
+                      </>
+                    )}
+                  </MainBtn>
+                </ButtonsWrapper>
+              </RevealWrapper>
             </div>
           </Column>
           <Column>
-            <div className='relative w-full h-full'>
+            <RevealWrapper className='relative w-full h-full'>
               <Image
                 src={product.images[0]}
                 alt='photo Macbook pro'
@@ -109,7 +110,7 @@ export default function Featured({ product }) {
                 objectFit='contain'
                 priority
               />
-            </div>
+            </RevealWrapper>
           </Column>
         </ColumnsWrapper>
       </Center>

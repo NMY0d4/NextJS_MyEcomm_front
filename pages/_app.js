@@ -17,13 +17,13 @@ const GlobalStyles = createGlobalStyle`
   --gray: #40514E;
   --grayLight:#96ada9;
   --grayDark:#24312f;
-  --white: #fff;
+  --white: #daf2f3;
   --black: #000;
 
   --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-*{
+*{  
   box-sizing: border-box;
   margin:0;
 }

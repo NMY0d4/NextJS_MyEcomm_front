@@ -10,6 +10,8 @@ const StyledHeader = styled.header`
   background-color: var(--primaryVeryLight);
   font-weight: bold;
   border-bottom: 1px solid var(--primary);
+  position: sticky;
+  top: 0;
 `;
 
 const Logo = styled(Link)`
