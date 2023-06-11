@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs';
 import Input from '@/components/ui/Input';
 import WhiteBox from '@/components/ui/WhiteBox';
+import { RevealWrapper } from 'next-reveal';
 
 const Columnswrapper = styled.div`
   display: grid;
@@ -170,136 +171,141 @@ export default function CartPage() {
     <>
       <Center>
         <Columnswrapper>
-          <WhiteBox>
-            <h2>Cart</h2>
-            {!products?.length ? (
-              <div>Your cart is empty</div>
-            ) : (
-              <>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Product</th>
-                      <th>Quantity</th>
-                      <th>Price</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {products.map((product) => (
-                      <tr key={product._id}>
-                        {/* ---------- INFOS ------------ */}
-
-                        <ProductInfoCell>
-                          <ProductImageBox>
-                            <ImageWrapper>
-                              <Image
-                                src={product.images[0]}
-                                alt={product.productName}
-                                layout='fill'
-                                objectFit='contain'
-                                priority
-                              />
-                            </ImageWrapper>
-                          </ProductImageBox>
-                          {product.productName}
-                        </ProductInfoCell>
-
-                        {/* ---------- QUANTITY ------------ */}
-                        <td className='text-center'>
-                          <MainBtn
-                            onClick={() => removeOneThisProduct(product._id)}
-                          >
-                            <BsFillCartDashFill
-                              style={{
-                                transform: 'scaleX(-1)',
-                              }}
-                            />
-                          </MainBtn>
-                          <QuantityLabel>
-                            {
-                              cartProducts.filter((id) => id === product._id)
-                                .length
-                            }
-                          </QuantityLabel>
-                          <MainBtn
-                            onClick={() => addOneThisProduct(product._id)}
-                          >
-                            <BsFillCartPlusFill />
-                          </MainBtn>
-                        </td>
-                        {/* ---------- PRICE ------------ */}
-
-                        <td>
-                          $
-                          {cartProducts.filter((id) => id === product._id)
-                            .length * product.price}
-                        </td>
+          <RevealWrapper delay={0}>
+            <WhiteBox>
+              <h2>Cart</h2>
+              {!products?.length ? (
+                <div>Your cart is empty</div>
+              ) : (
+                <>
+                  <Table>
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
                       </tr>
-                    ))}
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td>${calculateTotalPrice()}</td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </>
-            )}
-          </WhiteBox>
+                    </thead>
+                    <tbody>
+                      {products.map((product) => (
+                        <tr key={product._id}>
+                          {/* ---------- INFOS ------------ */}
+
+                          <ProductInfoCell>
+                            <ProductImageBox>
+                              <ImageWrapper>
+                                <Image
+                                  src={product.images[0]}
+                                  alt={product.productName}
+                                  layout='fill'
+                                  objectFit='contain'
+                                  priority
+                                />
+                              </ImageWrapper>
+                            </ProductImageBox>
+                            {product.productName}
+                          </ProductInfoCell>
+
+                          {/* ---------- QUANTITY ------------ */}
+                          <td className='text-center'>
+                            <MainBtn
+                              onClick={() => removeOneThisProduct(product._id)}
+                            >
+                              <BsFillCartDashFill
+                                style={{
+                                  transform: 'scaleX(-1)',
+                                }}
+                              />
+                            </MainBtn>
+                            <QuantityLabel>
+                              {
+                                cartProducts.filter((id) => id === product._id)
+                                  .length
+                              }
+                            </QuantityLabel>
+                            <MainBtn
+                              onClick={() => addOneThisProduct(product._id)}
+                            >
+                              <BsFillCartPlusFill />
+                            </MainBtn>
+                          </td>
+                          {/* ---------- PRICE ------------ */}
+
+                          <td>
+                            $
+                            {cartProducts.filter((id) => id === product._id)
+                              .length * product.price}
+                          </td>
+                        </tr>
+                      ))}
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>${calculateTotalPrice()}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </>
+              )}
+            </WhiteBox>
+          </RevealWrapper>
+
           {/* ---------- PAYMENT BOX ------------ */}
           {!!cartProducts?.length && (
-            <WhiteBox>
-              <h2>Order information</h2>
+            <RevealWrapper delay={200}>
+              <WhiteBox>
+                <h2>Order information</h2>
 
-              <Input
-                type='text'
-                placeholder='Name'
-                name='name'
-                value={customer.name}
-                onChange={handleInputChange}
-              />
-              <Input
-                type='text'
-                placeholder='Email'
-                name='email'
-                value={customer.email}
-                onChange={handleInputChange}
-              />
-              <CityHolder>
                 <Input
                   type='text'
-                  placeholder='City'
-                  name='city'
-                  value={customer.city}
+                  placeholder='Name'
+                  name='name'
+                  value={customer.name}
                   onChange={handleInputChange}
                 />
                 <Input
                   type='text'
-                  placeholder='Postal Code'
-                  name='postalCode'
-                  value={customer.postalCode}
+                  placeholder='Email'
+                  name='email'
+                  value={customer.email}
                   onChange={handleInputChange}
                 />
-              </CityHolder>
-              <Input
-                type='text'
-                placeholder='Street Address'
-                name='streetAddress'
-                value={customer.streetAddress}
-                onChange={handleInputChange}
-              />
-              <Input
-                type='text'
-                placeholder='Country'
-                name='country'
-                value={customer.country}
-                onChange={handleInputChange}
-              />
+                <CityHolder>
+                  <Input
+                    type='text'
+                    placeholder='City'
+                    name='city'
+                    value={customer.city}
+                    onChange={handleInputChange}
+                  />
+                  <Input
+                    type='text'
+                    placeholder='Postal Code'
+                    name='postalCode'
+                    value={customer.postalCode}
+                    onChange={handleInputChange}
+                  />
+                </CityHolder>
+                <Input
+                  type='text'
+                  placeholder='Street Address'
+                  name='streetAddress'
+                  value={customer.streetAddress}
+                  onChange={handleInputChange}
+                />
+                <Input
+                  type='text'
+                  placeholder='Country'
+                  name='country'
+                  value={customer.country}
+                  onChange={handleInputChange}
+                />
 
-              <MainBtn onClick={goToPayment} block primary>
-                Continue to payment
-              </MainBtn>
-            </WhiteBox>
+                <MainBtn onClick={goToPayment} block primary>
+                  Continue to payment
+                </MainBtn>
+              </WhiteBox>
+            </RevealWrapper>
           )}
         </Columnswrapper>
       </Center>

@@ -11,6 +11,7 @@ const StyledHeader = styled.header`
   font-weight: bold;
   border-bottom: 1px solid var(--primary);
   position: sticky;
+  z-index: 20;
   top: 0;
 `;
 

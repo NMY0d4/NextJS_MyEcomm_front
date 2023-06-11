@@ -6,6 +6,7 @@ import WhiteBox from '@/components/ui/WhiteBox';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
 import { CartContext } from '@/store/CartContext';
+import { RevealWrapper } from 'next-reveal';
 import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
@@ -80,42 +81,46 @@ export default function ProductPage({ product }) {
     <>
       <Center>
         <ColWrapper>
-          <WhiteBox className='relative overflow-hidden'>
-            <ImageWrapper>
-              <ProductImages images={product.images} />
-              {isAddingToCart && (
-                <ImageOverlay className='show-overlay'>
-                  <div className='overlay-text'>Added to Cart</div>
-                </ImageOverlay>
-              )}
-            </ImageWrapper>
-          </WhiteBox>
-          <div>
-            <h1>{product.productName}</h1>
-            <p>{product.description}</p>
-            <PriceRow>
-              <Price>${product.price}</Price>
-              <MainBtn
-                primary
-                onClick={handleAddToCart}
-                disabled={isAddingToCart}
-                style={{
-                  backgroundColor: isAddingToCart
-                    ? 'var(--grayLight)'
-                    : 'var(--primary)',
-                  color: isAddingToCart ? 'var(--grayDark)' : 'white',
-                }}
-              >
-                {isAddingToCart ? (
-                  'Adding...'
-                ) : (
-                  <>
-                    <CartIcon /> Add to cart
-                  </>
+          <RevealWrapper delay={0}>
+            <WhiteBox className='relative overflow-hidden'>
+              <ImageWrapper>
+                <ProductImages images={product.images} />
+                {isAddingToCart && (
+                  <ImageOverlay className='show-overlay'>
+                    <div className='overlay-text'>Added to Cart</div>
+                  </ImageOverlay>
                 )}
-              </MainBtn>
-            </PriceRow>
-          </div>
+              </ImageWrapper>
+            </WhiteBox>
+          </RevealWrapper>
+          <RevealWrapper delay={200}>
+            <div>
+              <h1>{product.productName}</h1>
+              <p>{product.description}</p>
+              <PriceRow>
+                <Price>${product.price}</Price>
+                <MainBtn
+                  primary
+                  onClick={handleAddToCart}
+                  disabled={isAddingToCart}
+                  style={{
+                    backgroundColor: isAddingToCart
+                      ? 'var(--grayLight)'
+                      : 'var(--primary)',
+                    color: isAddingToCart ? 'var(--grayDark)' : 'white',
+                  }}
+                >
+                  {isAddingToCart ? (
+                    'Adding...'
+                  ) : (
+                    <>
+                      <CartIcon /> Add to cart
+                    </>
+                  )}
+                </MainBtn>
+              </PriceRow>
+            </div>
+          </RevealWrapper>
         </ColWrapper>
       </Center>
     </>
