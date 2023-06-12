@@ -1,8 +1,9 @@
 import Center from '@/components/Center';
 import Input from '@/components/ui/Input';
+import ProductsGrid from '@/components/ui/ProductsGrid';
 import axios from 'axios';
-import { set } from 'mongoose';
-import { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const SearchInput = styled(Input)`
@@ -13,15 +14,24 @@ const SearchInput = styled(Input)`
 
 export default function SearchPage() {
   const [phrase, setPhrase] = useState('');
+  const [products, setProducts] = useState([]);
+  const debouncedSearch = useCallback(debounce(searchProducts, 500), []);
+
   useEffect(() => {
     if (phrase.length > 0) {
-      axios
-        .get(`/api/products?search=${encodeURIComponent(phrase)}`)
-        .then((response) => {
-          console.log(response.data);
-        });
+      debouncedSearch(phrase);
+    } else {
+      setProducts([]);
     }
   }, [phrase]);
+
+  function searchProducts(phrase) {
+    axios
+      .get(`/api/products?phrase=${encodeURIComponent(phrase)}`)
+      .then((response) => {
+        setProducts(response.data);
+      });
+  }
   return (
     <>
       <Center>
@@ -31,6 +41,11 @@ export default function SearchPage() {
           onChange={(e) => setPhrase(e.target.value)}
           placeholder='Search for products...'
         />
+        {products.length}
+        {phrase !== '' && products.length === 0 && (
+          <h2>No products found for query &quot;{phrase}&quot;</h2>
+        )}
+        <ProductsGrid products={products} />
       </Center>
     </>
   );

@@ -5,15 +5,19 @@ export default async function handle(req, res) {
   await mongooseConnect();
 
   const { categories, sort, phrase, ...filters } = req.query;
-  let [sortField, sortOrder] = sort.split('-');
-  if (!sortField) sortField = '_id';
-  if (!sortOrder) sortOrder = 'desc';
-  // console.log({ sort });
+  let [sortField, sortOrder] = (sort || '_id-desc').split('-');
 
-  const productsQuery = {
-    category: categories.split(','),
-  };
+  const productsQuery = {};
+  if (categories) {
+    productsQuery.category = categories?.split(',');
+  }
 
+  if (phrase) {
+    productsQuery['$or'] = [
+      { productName: { $regex: phrase, $options: 'i' } },
+      { description: { $regex: phrase, $options: 'i' } },
+    ];
+  }
   if (Object.keys(filters).length > 0) {
     Object.keys(filters).forEach((filterName) => {
       productsQuery[`properties.${filterName}`] = filters[filterName];
