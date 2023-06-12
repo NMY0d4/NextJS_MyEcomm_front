@@ -1,13 +1,12 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Center from './Center';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
 // import { CgMenuRound } from 'react-icons/cg';
 import BarsIcon from './icons/Bars';
 import Image from 'next/legacy/image';
 import gmLogo from '@/public/assets/mesLogos/gmLogo.png';
-import { useRouter } from 'next/router';
 
 const StyledHeader = styled.header`
   background-color: var(--primaryVeryLight);
@@ -82,31 +81,22 @@ export default function Header() {
   const { cartProducts } = useContext(CartContext);
   const [showMobileNav, setShowMobileNav] = useState(false);
   const [hideMobileNav, setHideMobileNav] = useState(false);
-  const router = useRouter();
-  
-
-  useEffect(() => {
-    const handleRouteChange = () => {
-      setShowMobileNav(false);
-      setHideMobileNav(false);
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router]);
+  const navButtonRef = useRef(null);
 
   const handleShowResponsive = () => {
-    if (showMobileNav) {
-      setHideMobileNav(true);
-      setTimeout(() => {
-        setShowMobileNav(false);
-      }, 280);
-    } else {
-      setShowMobileNav(true);
-      setHideMobileNav(false);
+    if (
+      navButtonRef.current &&
+      window.getComputedStyle(navButtonRef.current).display !== 'none'
+    ) {
+      if (showMobileNav) {
+        setHideMobileNav(true);
+        setTimeout(() => {
+          setShowMobileNav(false);
+        }, 280);
+      } else {
+        setShowMobileNav(true);
+        setHideMobileNav(false);
+      }
     }
   };
 
@@ -139,7 +129,7 @@ export default function Header() {
               Cart ({cartProducts.length})
             </NavLink>
           </StyledNav>
-          <NavButton onClick={handleShowResponsive}>
+          <NavButton ref={navButtonRef} onClick={handleShowResponsive}>
             <BarsIcon className='w-8 h-8' />
           </NavButton>
         </Wrapper>
