@@ -1,6 +1,6 @@
 import Center from '@/components/Center';
 import ProductImages from '@/components/ProductImages';
-import CartIcon from '@/components/icons/CartCart';
+import CartIcon from '@/components/icons/CartIcon';
 import MainBtn from '@/components/ui/MainBtn';
 import WhiteBox from '@/components/ui/WhiteBox';
 import { mongooseConnect } from '@/lib/mongoose';

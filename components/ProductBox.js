@@ -1,7 +1,7 @@
 import Image from 'next/legacy/image';
 import styled from 'styled-components';
 import MainBtn from './ui/MainBtn';
-import CartIcon from './icons/CartCart';
+import CartIcon from './icons/CartIcon';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { CartContext } from '@/store/CartContext';

@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Center from './Center';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
 // import { CgMenuRound } from 'react-icons/cg';
 import BarsIcon from './icons/Bars';
 import Image from 'next/legacy/image';
 import gmLogo from '@/public/assets/mesLogos/gmLogo.png';
+import SearchIcon from './icons/SearchIcon';
 
 const StyledHeader = styled.header`
   background-color: var(--primaryVeryLight);
@@ -59,7 +60,11 @@ const StyledNav = styled.nav`
 const NavLink = styled(Link)`
   display: block;
   color: var(--primaryDark);
+  min-width: 20px;
   padding: 10px 0;
+  svg {
+    height: 20px;
+  }
   @media screen and (min-width: 768px) {
     padding: 0;
   }
@@ -75,6 +80,13 @@ const NavButton = styled.button`
   @media screen and (min-width: 768px) {
     display: none;
   }
+`;
+
+const SideIcons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 `;
 
 export default function Header() {
@@ -129,9 +141,14 @@ export default function Header() {
               Cart ({cartProducts.length})
             </NavLink>
           </StyledNav>
-          <NavButton ref={navButtonRef} onClick={handleShowResponsive}>
-            <BarsIcon className='w-8 h-8' />
-          </NavButton>
+          <SideIcons>
+            <Link href={'/search'}>
+              <SearchIcon />
+            </Link>
+            <NavButton ref={navButtonRef} onClick={handleShowResponsive}>
+              <BarsIcon className='w-8 h-8' />
+            </NavButton>
+          </SideIcons>
         </Wrapper>
       </Center>
     </StyledHeader>

@@ -4,8 +4,10 @@ import { Product } from '@/models/Product';
 export default async function handle(req, res) {
   await mongooseConnect();
 
-  const { categories, sort, ...filters } = req.query;
-  const [sortfield, sortOrder] = sort.split('-');
+  const { categories, sort, phrase, ...filters } = req.query;
+  let [sortField, sortOrder] = sort.split('-');
+  if (!sortField) sortField = '_id';
+  if (!sortOrder) sortOrder = 'desc';
   // console.log({ sort });
 
   const productsQuery = {
@@ -21,7 +23,7 @@ export default async function handle(req, res) {
   // console.log(productsQuery);
   res.json(
     await Product.find(productsQuery, null, {
-      sort: { [sortfield]: sortOrder === 'asc' ? 1 : -1 },
+      sort: { [sortField]: sortOrder === 'asc' ? 1 : -1 },
     })
   );
 }

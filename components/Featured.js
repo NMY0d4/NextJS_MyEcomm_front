@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Image from 'next/legacy/image';
 import MainBtn from './ui/MainBtn';
 import ButtonLink from './ui/ButtonLink';
-import CartIcon from './icons/CartCart';
+import CartIcon from './icons/CartIcon';
 import { RevealWrapper } from 'next-reveal';
 import { CartContext } from '@/store/CartContext';
 
