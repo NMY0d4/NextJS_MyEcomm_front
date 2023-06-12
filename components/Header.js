@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Center from './Center';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
 // import { CgMenuRound } from 'react-icons/cg';
 import BarsIcon from './icons/Bars';
+import Image from 'next/legacy/image';
+import gmLogo from '@/public/assets/mesLogos/gmLogo.png';
+import { useRouter } from 'next/router';
 
 const StyledHeader = styled.header`
   background-color: var(--primaryVeryLight);
@@ -24,7 +27,8 @@ const Logo = styled(Link)`
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px 0;
+  align-items: center;
+  padding: 10px 0;
 `;
 
 const StyledNav = styled.nav`
@@ -76,20 +80,66 @@ const NavButton = styled.button`
 
 export default function Header() {
   const { cartProducts } = useContext(CartContext);
-  const [mobileNavActive, setMobileNavActive] = useState(false);
+  const [showMobileNav, setShowMobileNav] = useState(false);
+  const [hideMobileNav, setHideMobileNav] = useState(false);
+  const router = useRouter();
+  
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setShowMobileNav(false);
+      setHideMobileNav(false);
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router]);
+
+  const handleShowResponsive = () => {
+    if (showMobileNav) {
+      setHideMobileNav(true);
+      setTimeout(() => {
+        setShowMobileNav(false);
+      }, 280);
+    } else {
+      setShowMobileNav(true);
+      setHideMobileNav(false);
+    }
+  };
+
   return (
     <StyledHeader>
       <Center>
         <Wrapper>
-          <Logo href={'/'}>GM_Web Ecommerce</Logo>
-          <StyledNav mobileNavActive={mobileNavActive}>
-            <NavLink href={'/'}>Home</NavLink>
-            <NavLink href={'/products'}>All products</NavLink>
-            <NavLink href={'/categories'}>Categories</NavLink>
-            <NavLink href={'/account'}>Account</NavLink>
-            <NavLink href={'/cart'}>Cart ({cartProducts.length})</NavLink>
+          <Logo href={'/'}>
+            <Image src={gmLogo} alt='/' width='50' height='40' />
+          </Logo>
+          <StyledNav
+            mobileNavActive={showMobileNav}
+            className={`${showMobileNav ? 'slide-in' : ''} ${
+              hideMobileNav ? 'slide-out' : ''
+            }`}
+          >
+            <NavLink href={'/'} onClick={handleShowResponsive}>
+              Home
+            </NavLink>
+            <NavLink href={'/products'} onClick={handleShowResponsive}>
+              All products
+            </NavLink>
+            <NavLink href={'/categories'} onClick={handleShowResponsive}>
+              Categories
+            </NavLink>
+            <NavLink href={'/account'} onClick={handleShowResponsive}>
+              Account
+            </NavLink>
+            <NavLink href={'/cart'} onClick={handleShowResponsive}>
+              Cart ({cartProducts.length})
+            </NavLink>
           </StyledNav>
-          <NavButton onClick={() => setMobileNavActive((prev) => !prev)}>
+          <NavButton onClick={handleShowResponsive}>
             <BarsIcon className='w-8 h-8' />
           </NavButton>
         </Wrapper>

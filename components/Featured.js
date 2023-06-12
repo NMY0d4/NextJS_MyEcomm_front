@@ -6,6 +6,7 @@ import MainBtn from './ui/MainBtn';
 import ButtonLink from './ui/ButtonLink';
 import CartIcon from './icons/CartCart';
 import { RevealWrapper } from 'next-reveal';
+import { CartContext } from '@/store/CartContext';
 
 const Bg = styled.div`
   background-color: var(--primaryLight);
@@ -51,6 +52,7 @@ const Column = styled.div`
 
 export default function Featured({ product }) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const { addProduct } = useContext(CartContext);
 
   function addFeaturedToCart() {
     setIsAddingToCart(true);

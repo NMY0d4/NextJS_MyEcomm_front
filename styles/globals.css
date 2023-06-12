@@ -35,3 +35,31 @@ h2 {
 option {
   @apply text-sm;
 }
+
+/* ---------- ANIMATION ----------------- */
+
+.slide-in {
+  animation: slideIn 0.3s ease-in;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slide-out {
+  animation: slideOut 0.3s ease-out;
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
