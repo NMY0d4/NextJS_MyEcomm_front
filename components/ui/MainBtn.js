@@ -56,7 +56,7 @@ export const ButtonStyle = css`
       border: 1px solid var(--primaryDark);
       transition: all 0.3s;
       &:hover {
-        background-color: white;
+        background-color: var(--tertiary);
         color: var(--primaryDark);
       }
     `}
