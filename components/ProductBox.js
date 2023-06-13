@@ -5,10 +5,13 @@ import CartIcon from './icons/CartIcon';
 import Link from 'next/link';
 import { useContext, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
+import HeartOutlineIcon from './icons/HeartOutlineIcon';
+import HeartSolidIcon from './icons/HeartSolidIcon';
 
 const ProductWrapper = styled.div``;
 
 const WhiteBox = styled(Link)`
+  position: relative;
   background-color: var(--white);
   padding: 20px;
   height: 150px;
@@ -17,9 +20,9 @@ const WhiteBox = styled(Link)`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  position: relative;
   overflow: hidden;
   transition: background-color 0.5s ease;
+  z-index: 9;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.5);
@@ -88,15 +91,32 @@ const ImageOverlay = styled.div`
   }
 `;
 
+const WishlistButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: 0;
+  width: 25px;
+  height: 25px;
+  z-index: 10;
+  ${(props) => (props.wished ? `color:red;` : `color:black;`)}
+  svg {
+    width: 16px;
+  }
+`;
+
 export default function ProductBox({
   _id: id,
   productName: title,
   price,
   images,
+  wished,
 }) {
   const { addProduct } = useContext(CartContext);
   const uri = `/product/${id}`;
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isWished, setIsWished] = useState(wished);
 
   const handleAddToCart = () => {
     setIsAddingToCart(true);
@@ -106,9 +126,18 @@ export default function ProductBox({
     }, 800);
   };
 
+  function addToWishlist(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsWished((prev) => !prev);
+  }
+
   return (
     <ProductWrapper>
       <WhiteBox href={uri} className={isAddingToCart ? 'adding-to-cart' : ''}>
+        <WishlistButton wished={isWished} onClick={addToWishlist}>
+          {isWished ? <HeartSolidIcon /> : <HeartOutlineIcon />}
+        </WishlistButton>
         <div className='img-product'>
           <Image
             src={images[0]}
@@ -151,87 +180,3 @@ export default function ProductBox({
     </ProductWrapper>
   );
 }
-
-// import Image from 'next/legacy/image';
-// import styled from 'styled-components';
-// import MainBtn from './ui/MainBtn';
-// import CartIcon from './icons/CartCart';
-// import Link from 'next/link';
-// import { useContext } from 'react';
-// import { CartContext } from '@/store/CartContext';
-
-// const ProductWrapper = styled.div``;
-
-// const WhiteBox = styled(Link)`
-//   background-color: var(--white);
-//   padding: 20px;
-//   height: 150px;
-//   text-align: center;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   border-radius: 10px;
-// `;
-
-// const Title = styled(Link)`
-//   font-size: large.9rem;
-//   font-weight: 600;
-// `;
-
-// const ProductInfoBox = styled.div`
-//   margin-top: 5px;
-//   text-align: center;
-// `;
-
-// const PriceRow = styled.div`
-//   display: block;
-//   align-items: center;
-//   justify-content: space-around;
-//   margin-top: 2px;
-//   @media screen and (min-width: 768px) {
-//     display: flex;
-//   }
-// `;
-
-// const Price = styled.div`
-//   font-size: 1.2rem;
-//   font-weight: 600;
-//   @media screen and (min-width: 768px) {
-//     font-size: 1.5rem;
-//   }
-// `;
-
-// export default function ProductBox({
-//   _id: id,
-//   productName: title,
-//   description,
-//   price,
-//   images,
-// }) {
-//   const { addProduct } = useContext(CartContext);
-//   const uri = `/product/${id}`;
-//   return (
-//     <ProductWrapper>
-//       <WhiteBox href={uri}>
-//         <div className='img-product'>
-//           <Image
-//             src={images[0]}
-//             alt={`photo ${title}`}
-//             layout='fill'
-//             objectFit='contain'
-//             priority
-//           />
-//         </div>
-//       </WhiteBox>
-//       <ProductInfoBox>
-//         <Title href={uri}>{title}</Title>
-//         <PriceRow>
-//           <Price>${price}</Price>
-//           <MainBtn onClick={() => addProduct(id)} primary outline>
-//             <CartIcon /> Add
-//           </MainBtn>
-//         </PriceRow>
-//       </ProductInfoBox>
-//     </ProductWrapper>
-//   );
-// }

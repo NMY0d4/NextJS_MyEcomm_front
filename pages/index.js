@@ -3,9 +3,12 @@ import NewProducts from '@/components/NewProducts';
 import Loading from '@/components/ui/Loading';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
+import { getServerSession } from 'next-auth';
 import { useState, useEffect } from 'react';
+import { authOptions } from './api/auth/[...nextauth]';
+import { WishedProduct } from '@/models/WishedProduct';
 
-export default function HomePage({ featuredProduct, newProducts }) {
+export default function HomePage({ featuredProduct, newProducts, wishedNewProducts }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,14 +22,14 @@ export default function HomePage({ featuredProduct, newProducts }) {
       ) : (
         <>
           <Featured product={featuredProduct} />
-          <NewProducts products={newProducts} />
+          <NewProducts products={newProducts} wishedProducts={wishedNewProducts} />
         </>
       )}
     </>
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
   const featuredProductId = '647600560fd315f22ea770a8';
   await mongooseConnect();
   const data1 = await Product.findById(featuredProductId);
@@ -34,7 +37,19 @@ export async function getServerSideProps() {
   const data2 = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
   const newProducts = JSON.parse(JSON.stringify(data2));
 
+  const {
+    user: { email },
+  } = await getServerSession(req, res, authOptions);
+  const wishedNewProducts = await WishedProduct.find({
+    userEmail: email,
+    product: newProducts.map((p) => p._id.toString()),
+  });
+
   return {
-    props: { featuredProduct, newProducts },
+    props: {
+      featuredProduct,
+      newProducts,
+      wishedNewProducts: wishedNewProducts.map(i=> i.product.toString()),
+    },
   };
 }
