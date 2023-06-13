@@ -59,7 +59,7 @@ const QuantityLabel = styled.span`
   }
 `;
 
-const CityHolder = styled.div`
+export const CityHolder = styled.div`
   display: flex;
   gap: 5px;
 `;
