@@ -22,7 +22,7 @@ export default function ProductsGrid({ products, wishedProducts }) {
           <RevealWrapper key={product._id} delay={index * 100}>
             <ProductBox
               {...product}
-              wished={wishedProducts.includes(product._id)}
+              wished={wishedProducts?.includes(product._id)}
             />
           </RevealWrapper>
         ))}

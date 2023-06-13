@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import MainBtn from './ui/MainBtn';
 import CartIcon from './icons/CartIcon';
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
 import HeartOutlineIcon from './icons/HeartOutlineIcon';
 import HeartSolidIcon from './icons/HeartSolidIcon';
+import axios from 'axios';
 
 const ProductWrapper = styled.div``;
 
@@ -118,6 +119,10 @@ export default function ProductBox({
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWished, setIsWished] = useState(wished);
 
+  useEffect(() => {
+    console.log('wished changed');
+  }, [isWished]);
+
   const handleAddToCart = () => {
     setIsAddingToCart(true);
     addProduct(id);
@@ -129,7 +134,11 @@ export default function ProductBox({
   function addToWishlist(e) {
     e.preventDefault();
     e.stopPropagation();
-    setIsWished((prev) => !prev);
+    const nextValue = !isWished;
+    axios.post('/api/wishlist', {
+      product: id,
+    }).then(() => {});
+    setIsWished(nextValue);
   }
 
   return (
