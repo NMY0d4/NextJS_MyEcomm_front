@@ -95,6 +95,7 @@ export default function CartPage() {
       setProducts([]);
       localStorage.removeItem('cart');
     }
+    axios.get('/api/address').then(res => {setCustomer(res.data)})
   }, [cartProducts]);
 
   useEffect(() => {

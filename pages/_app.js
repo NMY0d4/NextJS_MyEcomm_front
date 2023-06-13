@@ -42,6 +42,10 @@ body{
     margin: 0;    
   } 
 }
+
+hr {
+  border-color: var(--primaryLight);
+}
 `;
 
 export default function App({

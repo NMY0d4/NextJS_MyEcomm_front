@@ -1,5 +1,5 @@
 import Center from '@/components/Center';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import MainBtn from '@/components/ui/MainBtn';
 import styled from 'styled-components';
@@ -7,6 +7,8 @@ import WhiteBox from '@/components/ui/WhiteBox';
 import { RevealWrapper } from 'next-reveal';
 import Input from '@/components/ui/Input';
 import { CityHolder } from './cart';
+import axios from 'axios';
+import Loading from '@/components/ui/Loading';
 
 const ColsWrapper = styled.div`
   display: grid;
@@ -22,12 +24,12 @@ const initialState = {
   postalCode: '',
   streetAddress: '',
   country: '',
-  cartProducts: '',
 };
 
 export default function AccountPage() {
   const { data: session } = useSession();
-  const [user, setUser] = useState(initialState);
+  const [userAddress, setUserAddress] = useState(initialState);
+  const [loaded, setLoaded] = useState(false);
 
   async function logout() {
     await signOut({
@@ -43,11 +45,22 @@ export default function AccountPage() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevState) => ({
+    setUserAddress((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
+
+  async function saveAddress() {
+    await axios.put('/api/address', userAddress);
+  }
+
+  useEffect(() => {
+    axios.get(`/api/address`).then((res) => {
+      setUserAddress(res.data);
+      setLoaded(true);
+    });
+  }, []);
 
   return (
     <>
@@ -63,56 +76,61 @@ export default function AccountPage() {
           <div>
             <RevealWrapper delay={200}>
               <WhiteBox>
-                <h2>Account details</h2>
-                <Input
-                  type='text'
-                  placeholder='Name'
-                  name='name'
-                  value={user.name}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  type='text'
-                  placeholder='Email'
-                  name='email'
-                  value={user.email}
-                  onChange={handleInputChange}
-                />
-                <CityHolder>
-                  <Input
-                    type='text'
-                    placeholder='City'
-                    name='city'
-                    value={user.city}
-                    onChange={handleInputChange}
-                  />
-                  <Input
-                    type='text'
-                    placeholder='Postal Code'
-                    name='postalCode'
-                    value={user.postalCode}
-                    onChange={handleInputChange}
-                  />
-                </CityHolder>
-                <Input
-                  type='text'
-                  placeholder='Street Address'
-                  name='streetAddress'
-                  value={user.streetAddress}
-                  onChange={handleInputChange}
-                />
-                <Input
-                  type='text'
-                  placeholder='Country'
-                  name='country'
-                  value={user.country}
-                  onChange={handleInputChange}
-                />
+                {!loaded && <Loading />}
+                {loaded && (
+                  <>
+                    <h2>Account details</h2>
+                    <Input
+                      type='text'
+                      placeholder='Name'
+                      name='name'
+                      value={userAddress.name}
+                      onChange={handleInputChange}
+                    />
+                    <Input
+                      type='text'
+                      placeholder='Email'
+                      name='email'
+                      value={userAddress.email}
+                      onChange={handleInputChange}
+                    />
+                    <CityHolder>
+                      <Input
+                        type='text'
+                        placeholder='City'
+                        name='city'
+                        value={userAddress.city}
+                        onChange={handleInputChange}
+                      />
+                      <Input
+                        type='text'
+                        placeholder='Postal Code'
+                        name='postalCode'
+                        value={userAddress.postalCode}
+                        onChange={handleInputChange}
+                      />
+                    </CityHolder>
+                    <Input
+                      type='text'
+                      placeholder='Street Address'
+                      name='streetAddress'
+                      value={userAddress.streetAddress}
+                      onChange={handleInputChange}
+                    />
+                    <Input
+                      type='text'
+                      placeholder='Country'
+                      name='country'
+                      value={userAddress.country}
+                      onChange={handleInputChange}
+                    />
 
-                <MainBtn onClick={() => {}} block primary>
-                  Save
-                </MainBtn>
-                <hr className='my-3' />
+                    <MainBtn onClick={saveAddress} block primary>
+                      Save
+                    </MainBtn>
+                    <hr className='my-3' />
+                  </>
+                )}
                 {session && (
                   <MainBtn primary onClick={logout}>
                     Logout

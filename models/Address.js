@@ -1,7 +1,7 @@
 const { Schema, default: mongoose, models, model } = require('mongoose');
 
 const AddressSchema = new Schema({
-  user: mongoose.Types.ObjectId,
+  userEmail: { type: String, unique: true, required: true },
   name: String,
   email: String,
   city: String,
