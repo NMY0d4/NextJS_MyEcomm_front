@@ -84,3 +84,10 @@ export default function SearchPage() {
 // }
 
 // const reverse3 = str => [...str].reverse().join('');
+
+// function mergeSortedArrays(arr1, arr2) {
+//   const newArr = [...arr1, ...arr2];
+//   return newArr.sort((a, b) => a - b);
+// }
+
+// console.log(mergeSortedArrays([0, 3, 4, 31], [4, 6, 30]));
