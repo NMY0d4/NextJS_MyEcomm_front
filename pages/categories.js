@@ -6,6 +6,9 @@ import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
 import { RevealWrapper } from 'next-reveal';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]';
+import { WishedProduct } from '@/models/WishedProduct';
 
 const CategoryGrid = styled.div`
   display: grid;
@@ -45,7 +48,11 @@ const ShowallSquare = styled(Link)`
   font-weight: 600;
 `;
 
-export default function CategoriePages({ mainCategories, categoriesProducts }) {
+export default function CategoriePages({
+  mainCategories,
+  categoriesProducts,
+  wishedProducts,
+}) {
   return (
     <>
       <Center>
@@ -61,7 +68,10 @@ export default function CategoriePages({ mainCategories, categoriesProducts }) {
               <CategoryGrid>
                 {categoriesProducts[cat._id].map((product, i) => (
                   <RevealWrapper key={product._id} delay={i * 50}>
-                    <ProductBox {...product} />
+                    <ProductBox
+                      {...product}
+                      wished={wishedProducts?.includes(product._id)}
+                    />
                   </RevealWrapper>
                 ))}
                 <RevealWrapper>
@@ -77,12 +87,13 @@ export default function CategoriePages({ mainCategories, categoriesProducts }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
   const categories = await Category.find();
   const mainCategories = JSON.parse(
     JSON.stringify(categories.filter((c) => !c.parent))
   );
   const categoriesProducts = {};
+  const allFetchedProductsId = [];
   for (const mainCat of mainCategories) {
     const mainCatId = mainCat._id.toString();
     const childCatIds = categories
@@ -93,12 +104,21 @@ export async function getServerSideProps() {
       limit: 3,
       sort: { _id: -1 },
     });
+    allFetchedProductsId.push(...products.map((p) => p._id.toString()));
     categoriesProducts[mainCat._id] = products;
   }
+
+  const { user } = await getServerSession(req, res, authOptions);
+  const wishedProducts = await WishedProduct.find({
+    userEmail: user.email,
+    product: allFetchedProductsId,
+  });
+
   return {
     props: {
       mainCategories,
       categoriesProducts: JSON.parse(JSON.stringify(categoriesProducts)),
+      wishedProducts: wishedProducts.map((i) => i.product.toString()),
     },
   };
 }

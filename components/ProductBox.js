@@ -117,8 +117,7 @@ export default function ProductBox({
   const { addProduct } = useContext(CartContext);
   const uri = `/product/${id}`;
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isWished, setIsWished] = useState(wished);
-  console.log(wished);
+  const [isWished, setIsWished] = useState(wished); 
 
   useEffect(() => {
     console.log('wished changed');
