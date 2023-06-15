@@ -3,9 +3,12 @@ import Loading from '@/components/ui/Loading';
 import ProductsGrid from '@/components/ui/ProductsGrid';
 import { mongooseConnect } from '@/lib/mongoose';
 import { Product } from '@/models/Product';
+import { WishedProduct } from '@/models/WishedProduct';
+import { getServerSession } from 'next-auth';
 import React, { useEffect, useState } from 'react';
+import { authOptions } from './api/auth/[...nextauth]';
 
-export default function ProductsPage({ products }) {
+export default function ProductsPage({ products, wishedProducts }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,7 +24,7 @@ export default function ProductsPage({ products }) {
         <>
           <Center>
             <h1>All products</h1>
-            <ProductsGrid products={products} />
+            <ProductsGrid products={products} wishedProducts={wishedProducts} />
           </Center>
         </>
       )}
@@ -29,12 +32,20 @@ export default function ProductsPage({ products }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req, res }) {
   await mongooseConnect();
   const products = await Product.find({}, null, { sort: { _id: -1 } });
+
+  const { user } = await getServerSession(req, res, authOptions);
+  const wishedProducts = await WishedProduct.find({
+    userEmail: user.email,
+    product: products.map((p) => p._id.toString()),
+  });
+
   return {
     props: {
       products: JSON.parse(JSON.stringify(products)),
+      wishedProducts: wishedProducts.map((i) => i.product.toString()) || [],
     },
   };
 }

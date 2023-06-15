@@ -8,7 +8,11 @@ import { useState, useEffect } from 'react';
 import { authOptions } from './api/auth/[...nextauth]';
 import { WishedProduct } from '@/models/WishedProduct';
 
-export default function HomePage({ featuredProduct, newProducts, wishedNewProducts }) {
+export default function HomePage({
+  featuredProduct,
+  newProducts,
+  wishedNewProducts,
+}) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +26,10 @@ export default function HomePage({ featuredProduct, newProducts, wishedNewProduc
       ) : (
         <>
           <Featured product={featuredProduct} />
-          <NewProducts products={newProducts} wishedProducts={wishedNewProducts} />
+          <NewProducts
+            products={newProducts}
+            wishedProducts={wishedNewProducts}
+          />
         </>
       )}
     </>
@@ -37,19 +44,18 @@ export async function getServerSideProps({ req, res }) {
   const data2 = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
   const newProducts = JSON.parse(JSON.stringify(data2));
 
-  const {
-    user: { email },
-  } = await getServerSession(req, res, authOptions);
+  const { user } = await getServerSession(req, res, authOptions);
   const wishedNewProducts = await WishedProduct.find({
-    userEmail: email,
+    userEmail: user.email,
     product: newProducts.map((p) => p._id.toString()),
   });
-
+  
   return {
     props: {
       featuredProduct,
       newProducts,
-      wishedNewProducts: wishedNewProducts.map(i=> i.product.toString()),
+      wishedNewProducts:
+        wishedNewProducts.map((i) => i.product.toString()) || [],
     },
   };
 }

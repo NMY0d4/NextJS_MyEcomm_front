@@ -68,7 +68,7 @@ export default function Featured({ product }) {
         <ColumnsWrapper>
           <Column>
             <div>
-              <RevealWrapper origin={'left'} delay={0}>
+              <RevealWrapper origin={'left'} delay={300}>
                 <h1>{product.productName}</h1>
                 <Desc>{product.description}</Desc>
                 <ButtonsWrapper>
@@ -104,7 +104,7 @@ export default function Featured({ product }) {
             </div>
           </Column>
           <Column>
-            <RevealWrapper delay={0} className='relative w-full h-full'>
+            <RevealWrapper delay={300} className='relative w-full h-full'>
               <Image
                 src={product.images[0]}
                 alt='photo Macbook pro'

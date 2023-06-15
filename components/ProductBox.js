@@ -112,12 +112,13 @@ export default function ProductBox({
   productName: title,
   price,
   images,
-  wished,
+  wished = false,
 }) {
   const { addProduct } = useContext(CartContext);
   const uri = `/product/${id}`;
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isWished, setIsWished] = useState(wished);
+  console.log(wished);
 
   useEffect(() => {
     console.log('wished changed');
@@ -135,9 +136,11 @@ export default function ProductBox({
     e.preventDefault();
     e.stopPropagation();
     const nextValue = !isWished;
-    axios.post('/api/wishlist', {
-      product: id,
-    }).then(() => {});
+    axios
+      .post('/api/wishlist', {
+        product: id,
+      })
+      .then(() => {});
     setIsWished(nextValue);
   }
 
