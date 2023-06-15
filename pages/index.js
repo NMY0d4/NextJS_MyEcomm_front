@@ -47,11 +47,13 @@ export async function getServerSideProps({ req, res }) {
   const newProducts = JSON.parse(JSON.stringify(data2));
 
   // START
-  const { user } = await getServerSession(req, res, authOptions);
-  const wishedNewProducts = await WishedProduct.find({
-    userEmail: user.email,
-    product: newProducts.map((p) => p._id.toString()),
-  });
+  const session = await getServerSession(req, res, authOptions);
+  const wishedNewProducts = session?.user
+    ? await WishedProduct.find({
+        userEmail: session.user.email,
+        product: newProducts.map((p) => p._id.toString()),
+      })
+    : [];
   // END
 
   return {

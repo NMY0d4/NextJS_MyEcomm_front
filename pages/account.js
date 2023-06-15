@@ -65,6 +65,14 @@ export default function AccountPage() {
   }
 
   useEffect(() => {
+    setAddressLoaded(true);
+    setWishlistLoaded(true);
+
+    if (!session) return;
+
+    setAddressLoaded(false);
+    setWishlistLoaded(false);
+
     axios.get(`/api/address`).then((res) => {
       setUserAddress(res.data);
       setAddressLoaded(true);
@@ -73,7 +81,7 @@ export default function AccountPage() {
       setWishedProducts(res.data.map((wp) => wp.product));
       setWishlistLoaded(true);
     });
-  }, []);
+  }, [session]);
 
   function productRemovedFromWhishlist(idToRemove) {
     setWishedProducts((products) => {
@@ -103,7 +111,11 @@ export default function AccountPage() {
                       ))}
                     {wishedProducts.length === 0 && (
                       <>
-                        <p>Your wishlist is empty</p>
+                        <p className='col-span-2'>
+                          {session
+                            ? 'Your wishlist is empty'
+                            : 'Login to add products to your wishlist'}
+                        </p>
                       </>
                     )}
                   </WishedProductsGrid>
@@ -115,7 +127,7 @@ export default function AccountPage() {
             <RevealWrapper delay={200}>
               <WhiteBox>
                 {!addressLoaded && <Loading />}
-                {addressLoaded && (
+                {addressLoaded && session && (
                   <>
                     <h2>Account details</h2>
                     <Input
@@ -176,7 +188,7 @@ export default function AccountPage() {
                 )}
                 {!session && (
                   <MainBtn primary onClick={login}>
-                    Login
+                    Login with Google
                   </MainBtn>
                 )}
               </WhiteBox>

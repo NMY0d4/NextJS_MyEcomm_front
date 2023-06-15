@@ -6,6 +6,7 @@ import { Address } from '@/models/Address';
 export default async function handle(req, res) {
   
   await mongooseConnect();
+  
   const { user } = await getServerSession(req, res, authOptions);
 
   if (req.method === 'PUT') {

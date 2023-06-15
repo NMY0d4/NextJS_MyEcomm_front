@@ -4,7 +4,7 @@ import { authOptions } from './auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 
 export default async function handle(req, res) {
-  await mongooseConnect();
+  await mongooseConnect();  
   const { user } = await getServerSession(req, res, authOptions);
 
   if (req.method === 'POST') {

@@ -8,6 +8,7 @@ import { CartContext } from '@/store/CartContext';
 import HeartOutlineIcon from './icons/HeartOutlineIcon';
 import HeartSolidIcon from './icons/HeartSolidIcon';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 const ProductWrapper = styled.div``;
 
@@ -113,12 +114,13 @@ export default function ProductBox({
   price,
   images,
   wished = false,
-  onRemoveFromWishlist
+  onRemoveFromWishlist,
 }) {
   const { addProduct } = useContext(CartContext);
-  const uri = `/product/${id}`;
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isWished, setIsWished] = useState(wished); 
+  const [isWished, setIsWished] = useState(wished);
+  const { data: session } = useSession();
+  const uri = `/product/${id}`;
 
   useEffect(() => {
     console.log('wished changed');
@@ -150,9 +152,11 @@ export default function ProductBox({
   return (
     <ProductWrapper>
       <WhiteBox href={uri} className={isAddingToCart ? 'adding-to-cart' : ''}>
-        <WishlistButton wished={isWished} onClick={addToWishlist}>
-          {isWished ? <HeartSolidIcon /> : <HeartOutlineIcon />}
-        </WishlistButton>
+        {session && (
+          <WishlistButton wished={isWished} onClick={addToWishlist}>
+            {isWished ? <HeartSolidIcon /> : <HeartOutlineIcon />}
+          </WishlistButton>
+        )}
         <div className='img-product'>
           <Image
             src={images[0]}

@@ -10,6 +10,7 @@ import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs';
 import Input from '@/components/ui/Input';
 import WhiteBox from '@/components/ui/WhiteBox';
 import { RevealWrapper } from 'next-reveal';
+import { useSession } from 'next-auth/react';
 
 const Columnswrapper = styled.div`
   display: grid;
@@ -80,6 +81,7 @@ export default function CartPage() {
   const [products, setProducts] = useState([]);
   const [customer, setCustomer] = useState(initialState);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (cartProducts.length > 0) {
@@ -95,7 +97,6 @@ export default function CartPage() {
       setProducts([]);
       localStorage.removeItem('cart');
     }
-    axios.get('/api/address').then(res => {setCustomer(res.data)})
   }, [cartProducts]);
 
   useEffect(() => {
@@ -104,6 +105,14 @@ export default function CartPage() {
       setIsSuccess(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!session) return;
+    
+    axios.get('/api/address').then((res) => {
+      setCustomer(res.data);
+    });
+  }, [session]);
 
   useEffect(() => {
     if (isSuccess) {
