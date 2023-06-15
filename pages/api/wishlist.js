@@ -20,6 +20,12 @@ export default async function handle(req, res) {
     } else {
       await WishedProduct.create({ userEmail: user.email, product });
       res.json('created');
-    };
+    }
+  }
+
+  if (req.method === 'GET') {
+    res.json(
+      await WishedProduct.find({ userEmail: user.email }).populate('product')
+    );
   }
 }

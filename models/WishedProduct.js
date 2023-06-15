@@ -2,7 +2,7 @@ import mongoose, { Schema, model, models } from 'mongoose';
 
 const WishedProductSchema = new Schema({
   userEmail: { type: String, required: true },
-  product: { type: Schema.Types.ObjectId },
+  product: { type: Schema.Types.ObjectId, ref: 'Product' },
 });
 
 export const WishedProduct =

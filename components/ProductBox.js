@@ -113,6 +113,7 @@ export default function ProductBox({
   price,
   images,
   wished = false,
+  onRemoveFromWishlist
 }) {
   const { addProduct } = useContext(CartContext);
   const uri = `/product/${id}`;
@@ -135,6 +136,9 @@ export default function ProductBox({
     e.preventDefault();
     e.stopPropagation();
     const nextValue = !isWished;
+    if (nextValue === false && onRemoveFromWishlist) {
+      onRemoveFromWishlist(id);
+    }
     axios
       .post('/api/wishlist', {
         product: id,

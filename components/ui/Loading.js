@@ -5,7 +5,7 @@ const LoadingContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 60vh;
+  height: 30vh;
 `;
 
 const LoadingSpinner = styled.div`

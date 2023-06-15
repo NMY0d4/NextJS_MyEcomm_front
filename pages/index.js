@@ -22,7 +22,9 @@ export default function HomePage({
     <>
       {isLoading ? (
         // Display a loading indicator here
-        <Loading />
+        <div className='mt-20'>
+          <Loading />
+        </div>
       ) : (
         <>
           <Featured product={featuredProduct} />
@@ -44,14 +46,14 @@ export async function getServerSideProps({ req, res }) {
   const data2 = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
   const newProducts = JSON.parse(JSON.stringify(data2));
 
-  // START 
+  // START
   const { user } = await getServerSession(req, res, authOptions);
   const wishedNewProducts = await WishedProduct.find({
     userEmail: user.email,
     product: newProducts.map((p) => p._id.toString()),
   });
   // END
-  
+
   return {
     props: {
       featuredProduct,

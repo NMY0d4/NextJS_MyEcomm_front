@@ -9,6 +9,7 @@ import Input from '@/components/ui/Input';
 import { CityHolder } from './cart';
 import axios from 'axios';
 import Loading from '@/components/ui/Loading';
+import ProductBox from '@/components/ProductBox';
 
 const ColsWrapper = styled.div`
   display: grid;
@@ -26,10 +27,18 @@ const initialState = {
   country: '',
 };
 
+const WishedProductsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+`;
+
 export default function AccountPage() {
   const { data: session } = useSession();
   const [userAddress, setUserAddress] = useState(initialState);
-  const [loaded, setLoaded] = useState(false);
+  const [addressLoaded, setAddressLoaded] = useState(false);
+  const [wishlistLoaded, setWishlistLoaded] = useState(false);
+  const [wishedProducts, setWishedProducts] = useState([]);
 
   async function logout() {
     await signOut({
@@ -58,9 +67,19 @@ export default function AccountPage() {
   useEffect(() => {
     axios.get(`/api/address`).then((res) => {
       setUserAddress(res.data);
-      setLoaded(true);
+      setAddressLoaded(true);
+    });
+    axios.get('/api/wishlist').then((res) => {
+      setWishedProducts(res.data.map((wp) => wp.product));
+      setWishlistLoaded(true);
     });
   }, []);
+
+  function productRemovedFromWhishlist(idToRemove) {
+    setWishedProducts((products) => {
+      return [...products.filter((p) => p._id.toString() !== idToRemove)];
+    });
+  }
 
   return (
     <>
@@ -70,14 +89,33 @@ export default function AccountPage() {
             <RevealWrapper delay={0}>
               <WhiteBox>
                 <h2>Wishlist</h2>
+                {!wishlistLoaded && <Loading />}
+                {wishlistLoaded && (
+                  <WishedProductsGrid>
+                    {wishedProducts.length > 0 &&
+                      wishedProducts.map((wp) => (
+                        <ProductBox
+                          key={wp._id}
+                          {...wp}
+                          wished={true}
+                          onRemoveFromWishlist={productRemovedFromWhishlist}
+                        />
+                      ))}
+                    {wishedProducts.length === 0 && (
+                      <>
+                        <p>Your wishlist is empty</p>
+                      </>
+                    )}
+                  </WishedProductsGrid>
+                )}
               </WhiteBox>
             </RevealWrapper>
           </div>
           <div>
             <RevealWrapper delay={200}>
               <WhiteBox>
-                {!loaded && <Loading />}
-                {loaded && (
+                {!addressLoaded && <Loading />}
+                {addressLoaded && (
                   <>
                     <h2>Account details</h2>
                     <Input
