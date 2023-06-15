@@ -11,6 +11,7 @@ import axios from 'axios';
 import Loading from '@/components/ui/Loading';
 import ProductBox from '@/components/ProductBox';
 import Tabs from '@/components/ui/Tabs';
+import SingleOrder from '@/components/SingleOrder';
 
 const ColsWrapper = styled.div`
   display: grid;
@@ -109,7 +110,13 @@ export default function AccountPage() {
                 {activeTab === 'Orders' && (
                   <>
                     {!orderLoaded && <Loading />}
-                    {orderLoaded && <div>{orders.length}</div>}
+                    {orderLoaded && (
+                      <div>
+                        {orders.length === 0 && <p>Login to see your orders</p>}
+                        {orders.length > 0 &&
+                          orders.map((o) => <SingleOrder key={o._id} {...o} />)}
+                      </div>
+                    )}
                   </>
                 )}
                 {activeTab === 'Wishlist' && (
