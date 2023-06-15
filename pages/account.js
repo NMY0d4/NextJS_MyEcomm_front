@@ -10,6 +10,7 @@ import { CityHolder } from './cart';
 import axios from 'axios';
 import Loading from '@/components/ui/Loading';
 import ProductBox from '@/components/ProductBox';
+import Tabs from '@/components/ui/Tabs';
 
 const ColsWrapper = styled.div`
   display: grid;
@@ -36,9 +37,12 @@ const WishedProductsGrid = styled.div`
 export default function AccountPage() {
   const { data: session } = useSession();
   const [userAddress, setUserAddress] = useState(initialState);
-  const [addressLoaded, setAddressLoaded] = useState(false);
-  const [wishlistLoaded, setWishlistLoaded] = useState(false);
+  const [addressLoaded, setAddressLoaded] = useState(true);
+  const [wishlistLoaded, setWishlistLoaded] = useState(true);
+  const [orderLoaded, setOrderLoaded] = useState(true);
   const [wishedProducts, setWishedProducts] = useState([]);
+  const [activeTab, setActiveTab] = useState('Orders');
+  const [orders, setOrders] = useState([]);
 
   async function logout() {
     await signOut({
@@ -65,14 +69,11 @@ export default function AccountPage() {
   }
 
   useEffect(() => {
-    setAddressLoaded(true);
-    setWishlistLoaded(true);
-
     if (!session) return;
 
     setAddressLoaded(false);
     setWishlistLoaded(false);
-
+    setOrderLoaded(false);
     axios.get(`/api/address`).then((res) => {
       setUserAddress(res.data);
       setAddressLoaded(true);
@@ -80,6 +81,10 @@ export default function AccountPage() {
     axios.get('/api/wishlist').then((res) => {
       setWishedProducts(res.data.map((wp) => wp.product));
       setWishlistLoaded(true);
+    });
+    axios.get('/api/orders').then((res) => {
+      setOrders(res.data);
+      setOrderLoaded(true);
     });
   }, [session]);
 
@@ -96,29 +101,43 @@ export default function AccountPage() {
           <div>
             <RevealWrapper delay={0}>
               <WhiteBox>
-                <h2>Wishlist</h2>
-                {!wishlistLoaded && <Loading />}
-                {wishlistLoaded && (
-                  <WishedProductsGrid>
-                    {wishedProducts.length > 0 &&
-                      wishedProducts.map((wp) => (
-                        <ProductBox
-                          key={wp._id}
-                          {...wp}
-                          wished={true}
-                          onRemoveFromWishlist={productRemovedFromWhishlist}
-                        />
-                      ))}
-                    {wishedProducts.length === 0 && (
-                      <>
-                        <p className='col-span-2'>
-                          {session
-                            ? 'Your wishlist is empty'
-                            : 'Login to add products to your wishlist'}
-                        </p>
-                      </>
+                <Tabs
+                  tabs={['Orders', 'Wishlist']}
+                  active={activeTab}
+                  onChange={setActiveTab}
+                />
+                {activeTab === 'Orders' && (
+                  <>
+                    {!orderLoaded && <Loading />}
+                    {orderLoaded && <div>{orders.length}</div>}
+                  </>
+                )}
+                {activeTab === 'Wishlist' && (
+                  <>
+                    {!wishlistLoaded && <Loading />}
+                    {wishlistLoaded && (
+                      <WishedProductsGrid>
+                        {wishedProducts.length > 0 &&
+                          wishedProducts.map((wp) => (
+                            <ProductBox
+                              key={wp._id}
+                              {...wp}
+                              wished={true}
+                              onRemoveFromWishlist={productRemovedFromWhishlist}
+                            />
+                          ))}
+                        {wishedProducts.length === 0 && (
+                          <>
+                            <p className='col-span-2'>
+                              {session
+                                ? 'Your wishlist is empty'
+                                : 'Login to add products to your wishlist'}
+                            </p>
+                          </>
+                        )}
+                      </WishedProductsGrid>
                     )}
-                  </WishedProductsGrid>
+                  </>
                 )}
               </WhiteBox>
             </RevealWrapper>
