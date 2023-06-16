@@ -52,9 +52,13 @@ export default function AccountPage() {
   }
 
   async function login() {
-    await signIn('google', {
-      callbackUrl: process.env.NEXT_PUBLIC_URL,
-    });
+    try {
+      await signIn('google', {
+        callbackUrl: process.env.NEXT_PUBLIC_URL,
+      });
+    } catch (error) {
+      console.error('Error during sign in:', error);
+    }
   }
 
   const handleInputChange = (e) => {
