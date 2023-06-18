@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth';
 import { useState, useEffect } from 'react';
 import { authOptions } from './api/auth/[...nextauth]';
 import { WishedProduct } from '@/models/WishedProduct';
+import { Setting } from '@/models/Setting';
 
 export default function HomePage({
   featuredProduct,
@@ -39,14 +40,16 @@ export default function HomePage({
 }
 
 export async function getServerSideProps({ req, res }) {
-  const featuredProductId = '647600560fd315f22ea770a8';
   await mongooseConnect();
+  const featuredProductSetting = await Setting.findOne({
+    name: 'featuredProductId',
+  });
+  const featuredProductId = featuredProductSetting.value;
   const data1 = await Product.findById(featuredProductId);
   const featuredProduct = JSON.parse(JSON.stringify(data1));
   const data2 = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
   const newProducts = JSON.parse(JSON.stringify(data2));
 
-  // START
   const session = await getServerSession(req, res, authOptions);
   const wishedNewProducts = session?.user
     ? await WishedProduct.find({
@@ -54,7 +57,6 @@ export async function getServerSideProps({ req, res }) {
         product: newProducts.map((p) => p._id.toString()),
       })
     : [];
-  // END
 
   return {
     props: {

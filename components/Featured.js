@@ -45,7 +45,7 @@ const Desc = styled.p`
 `;
 
 const Column = styled.div`
-  min-height: 25vh;
+  min-height: 40vh;
   display: flex;
   align-items: center;
 `;
@@ -104,7 +104,10 @@ export default function Featured({ product }) {
             </div>
           </Column>
           <Column>
-            <RevealWrapper delay={300} className='relative w-full h-full'>
+            <RevealWrapper
+              delay={300}
+              className='relative rounded-lg overflow-hidden w-full h-full'
+            >
               <Image
                 src={product.images[0]}
                 alt='photo Macbook pro'

@@ -36,8 +36,8 @@ const WhiteBox = styled(Link)`
 `;
 
 const Title = styled(Link)`
-  font-size: large.9rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 600;  
 `;
 
 const ProductInfoBox = styled.div`
@@ -49,7 +49,7 @@ const PriceRow = styled.div`
   display: block;
   align-items: center;
   justify-content: space-around;
-  margin-top: 2px;
+  margin-top: 5px;
   @media screen and (min-width: 768px) {
     display: flex;
   }
