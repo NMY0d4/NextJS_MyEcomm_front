@@ -37,6 +37,8 @@ const ButtonsWrapper = styled.div`
   align-items: center;
   gap: 10px;
   margin-top: 15px;
+
+  justify-content: center;
 `;
 
 const Desc = styled.p`
@@ -48,6 +50,12 @@ const Column = styled.div`
   min-height: 40vh;
   display: flex;
   align-items: center;
+`;
+
+const ContentWrapper = styled.div`
+  * {
+    text-align: center;
+  }
 `;
 
 export default function Featured({ product }) {
@@ -67,7 +75,7 @@ export default function Featured({ product }) {
       <Center>
         <ColumnsWrapper>
           <Column>
-            <div>
+            <ContentWrapper>
               <RevealWrapper origin={'left'} delay={300}>
                 <h1>{product.productName}</h1>
                 <Desc>{product.description}</Desc>
@@ -101,7 +109,7 @@ export default function Featured({ product }) {
                   </MainBtn>
                 </ButtonsWrapper>
               </RevealWrapper>
-            </div>
+            </ContentWrapper>
           </Column>
           <Column>
             <RevealWrapper
