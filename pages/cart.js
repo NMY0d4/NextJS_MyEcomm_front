@@ -17,6 +17,27 @@ const Columnswrapper = styled.div`
   grid-template-columns: 1fr;
   gap: 40px;
   margin-top: 40px;
+  margin-bottom: 40px;
+
+  table thead tr th:nth-child(3),
+  table tbody tr td:nth-child(3),
+  table tbody tr.subtotal td:nth-child(2) {
+    text-align: right;
+  }
+
+  table tbody tr.subtotal td {
+    padding: 15px 0;
+  }
+
+  table tbody tr.subtotal td:nth-child(2) {
+    font-size: 1.3rem;
+  }
+
+  tr.total td {
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+
   @media screen and (min-width: 768px) {
     grid-template-columns: 1.3fr 0.7fr;
   }
@@ -81,6 +102,7 @@ export default function CartPage() {
   const [products, setProducts] = useState([]);
   const [customer, setCustomer] = useState(initialState);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [shippingFee, setShippingFee] = useState(null);
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -104,11 +126,15 @@ export default function CartPage() {
     if (window.location.href.includes('success')) {
       setIsSuccess(true);
     }
+
+    axios.get(`/api/settings?name=shippingFee`).then((res) => {
+      setShippingFee(res.data.value);
+    });
   }, []);
 
   useEffect(() => {
     if (!session) return;
-    
+
     axios.get('/api/address').then((res) => {
       setCustomer(res.data);
     });
@@ -132,15 +158,15 @@ export default function CartPage() {
     }
   }
 
-  function calculateTotalPrice() {
-    let totalPrice = 0;
+  function calculateproductsTotal() {
+    let productsTotal = 0;
 
     products.forEach((product) => {
       const quantity = cartProducts.filter((id) => id === product._id).length;
-      totalPrice += quantity * product.price;
+      productsTotal += quantity * product.price;
     });
 
-    return totalPrice;
+    return productsTotal;
   }
   // ------------- PAYMENT FUNCTION -----------------
   async function goToPayment() {
@@ -248,10 +274,19 @@ export default function CartPage() {
                           </td>
                         </tr>
                       ))}
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>${calculateTotalPrice()}</td>
+                      <tr className='subtotal'>
+                        <td colSpan={2}>Products</td>
+                        <td>${calculateproductsTotal()}</td>
+                      </tr>
+                      <tr className='subtotal'>
+                        <td colSpan={2}>Shipping</td>
+                        <td>${shippingFee}</td>
+                      </tr>
+                      <tr className='subtotal total'>
+                        <td colSpan={2}>Total</td>
+                        <td>
+                          ${calculateproductsTotal() + (+shippingFee || 0)}
+                        </td>
                       </tr>
                     </tbody>
                   </Table>
