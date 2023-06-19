@@ -117,7 +117,7 @@ export default function Header() {
       <Center>
         <Wrapper>
           <Logo href={'/'}>
-            <Image src={gmLogo} alt='/' width='50' height='40' />
+            <Image src={gmLogo} alt='/' width='52' height='44' />
           </Logo>
           <StyledNav
             mobileNavActive={showMobileNav}

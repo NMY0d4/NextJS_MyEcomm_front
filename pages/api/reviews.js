@@ -1,5 +1,5 @@
 import { mongooseConnect } from '@/lib/mongoose';
-import { Review } from '@/models/REview';
+import { Review } from '@/models/Review';
 
 export default async function handle(req, res) {
   await mongooseConnect();
