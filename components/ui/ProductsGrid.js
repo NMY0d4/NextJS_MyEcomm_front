@@ -15,6 +15,7 @@ const StyledProductsGrid = styled.div`
 `;
 
 export default function ProductsGrid({ products, wishedProducts = [] }) {
+  console.log(wishedProducts);
   return (
     <StyledProductsGrid>
       {products?.length > 0 &&

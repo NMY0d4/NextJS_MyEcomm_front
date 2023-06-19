@@ -37,7 +37,7 @@ const WhiteBox = styled(Link)`
 
 const Title = styled(Link)`
   font-size: 1rem;
-  font-weight: 600;  
+  font-weight: 600;
 `;
 
 const ProductInfoBox = styled.div`
@@ -145,8 +145,9 @@ export default function ProductBox({
       .post('/api/wishlist', {
         product: id,
       })
-      .then(() => {});
-    setIsWished(nextValue);
+      .then(() => {
+        setIsWished(nextValue);
+      });
   }
 
   return (

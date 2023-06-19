@@ -1,12 +1,13 @@
 import Center from '@/components/Center';
 import Loading from '@/components/ui/Loading';
 import ProductsGrid from '@/components/ui/ProductsGrid';
-import Spinner from '@/components/ui/Spinner';
 import { Category } from '@/models/Category';
 import { Product } from '@/models/Product';
+import { WishedProduct } from '@/models/WishedProduct';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getSession, useSession } from 'next-auth/react';
 
 const CategoryHeader = styled.div`
   display: flex;
@@ -47,6 +48,7 @@ const Filter = styled.div`
 export default function CategoryPage({
   category,
   subCategories,
+  wishedProducts,
   products: originalProducts,
 }) {
   const defaultSorting = '_id-desc';
@@ -58,6 +60,7 @@ export default function CategoryPage({
   const [filtersValues, setFiltersValues] = useState(defaultFilterValues);
   const [sort, setSort] = useState(defaultSorting);
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const { data: session } = useSession();
 
   function handleFilterChange(filterName, filterValue) {
     setFiltersValues((prev) => {
@@ -134,7 +137,10 @@ export default function CategoryPage({
         {!loadingProducts && (
           <div>
             {products.length > 0 ? (
-              <ProductsGrid products={products} />
+              <ProductsGrid
+                products={products}
+                wishedProducts={wishedProducts}
+              />
             ) : (
               <div className='mt-4 font-semibold text-primary'>
                 Sorry, no products found
@@ -148,16 +154,26 @@ export default function CategoryPage({
 }
 
 export async function getServerSideProps(context) {
+  const session = await getSession(context);
   const category = await Category.findById(context.query.id);
   const subCategories = await Category.find({ parent: category._id });
   const catIds = [category._id, ...subCategories.map((c) => c._id)];
   const products = await Product.find({ category: catIds });
+
+  const wishedProducts = session?.user
+    ? await WishedProduct.find({
+        userEmail: session.user.email,
+        product: products,
+      })
+    : [];
 
   return {
     props: {
       category: JSON.parse(JSON.stringify(category)),
       subCategories: JSON.parse(JSON.stringify(subCategories)),
       products: JSON.parse(JSON.stringify(products)),
+      wishedProducts: wishedProducts.map((i) => i.product.toString()),
+      session,
     },
   };
 }

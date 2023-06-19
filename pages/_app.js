@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import { CartContextProvider } from '@/store/CartContext';
 import '@/styles/globals.css';
 import { SessionProvider } from 'next-auth/react';
+import Head from 'next/head';
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
@@ -54,6 +55,9 @@ export default function App({
 }) {
   return (
     <>
+      <Head>
+        <title>GM_Web ecommerce</title>
+      </Head>
       <GlobalStyles />
       <SessionProvider session={session}>
         <CartContextProvider>
@@ -64,11 +68,3 @@ export default function App({
     </>
   );
 }
-
-// This application is a fictional project developed for portfolio purposes, showcasing various functionalities that can be implemented in an Ecommerce website. It is important to note that certain features typically present in a real website, such as cookie consent, terms and conditions, and legal notices, have intentionally been excluded for the sake of simplicity. In a real-world scenario, these elements would be essential and would require thorough consideration and implementation, along with other important aspects like SEO optimization and validation schemes.
-
-// One specific feature that is worth mentioning is the integration of Stripe payment gateway. In this demonstration, the validation process for Stripe is set to test mode, allowing users to simulate transactions using dummy data. When testing the payment functionality, you can enter the card number as "42" along with other fictitious details. It is important to understand that this is only for demonstration purposes and should not be used for real transactions.
-
-// While this application provides a comprehensive overview of various features that can be implemented in an Ecommerce site, it is essential to remember that in a real-world scenario, additional considerations and configurations would be necessary. These may include security measures, performance optimization, scalability, and compliance with legal requirements.
-
-// Overall, this application serves as a showcase for the capabilities and potential of an Ecommerce website, providing insights into the different functionalities that can be integrated. However, it is important to adapt and tailor these features to the specific needs and requirements of a real Ecommerce project, ensuring the inclusion of essential elements and adhering to industry best practices.
