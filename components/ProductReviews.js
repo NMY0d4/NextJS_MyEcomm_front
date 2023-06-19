@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import Input from './ui/Input';
+import WhiteBox from './ui/WhiteBox';
 
 const Subtitle = styled.h3`
   font-size: 1rem;
@@ -8,6 +10,7 @@ const Subtitle = styled.h3`
 const ColsWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  gap: 20px;
 `;
 
 export default function ProductReviews({ product }) {
@@ -15,9 +18,11 @@ export default function ProductReviews({ product }) {
     <div>
       <h2>Reviews</h2>
       <ColsWrapper>
-        <div>
+        <WhiteBox>
           <Subtitle>Add review</Subtitle>
-        </div>
+          <Input placeholder='Title' />
+          Stars:
+        </WhiteBox>
         <div>
           <Subtitle>All reviews</Subtitle>
         </div>
