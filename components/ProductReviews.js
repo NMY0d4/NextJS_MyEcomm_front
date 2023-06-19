@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import Input from './ui/Input';
 import WhiteBox from './ui/WhiteBox';
+import StarsRating from './ui/StarsRating';
+import Textarea from './ui/Textarea';
+import MainBtn from './ui/MainBtn';
 
 const Subtitle = styled.h3`
   font-size: 1rem;
@@ -20,8 +23,14 @@ export default function ProductReviews({ product }) {
       <ColsWrapper>
         <WhiteBox>
           <Subtitle>Add review</Subtitle>
+          <div className='flex flex-row items-center my-2'>
+            <StarsRating onChange={() => {}} />
+          </div>
           <Input placeholder='Title' />
-          Stars:
+          <Textarea placeholder='Was it good? Pros? Cons?' />
+          <div>
+            <MainBtn primary>Submit your review</MainBtn>
+          </div>
         </WhiteBox>
         <div>
           <Subtitle>All reviews</Subtitle>
