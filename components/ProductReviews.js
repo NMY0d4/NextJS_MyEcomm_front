@@ -4,6 +4,7 @@ import WhiteBox from './ui/WhiteBox';
 import StarsRating from './ui/StarsRating';
 import Textarea from './ui/Textarea';
 import MainBtn from './ui/MainBtn';
+import { useState } from 'react';
 
 const Subtitle = styled.h3`
   font-size: 1rem;
@@ -17,6 +18,12 @@ const ColsWrapper = styled.div`
 `;
 
 export default function ProductReviews({ product }) {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  function submitReview() {
+    
+  }
+
   return (
     <div>
       <h2>Reviews</h2>
@@ -26,10 +33,20 @@ export default function ProductReviews({ product }) {
           <div className='flex flex-row items-center my-2'>
             <StarsRating onChange={() => {}} />
           </div>
-          <Input placeholder='Title' />
-          <Textarea placeholder='Was it good? Pros? Cons?' />
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder='Title'
+          />
+          <Textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder='Was it good? Pros? Cons?'
+          />
           <div>
-            <MainBtn primary>Submit your review</MainBtn>
+            <MainBtn primary onClick={submitReview}>
+              Submit your review
+            </MainBtn>
           </div>
         </WhiteBox>
         <div>
