@@ -19,6 +19,7 @@ const StyledOrder = styled.div`
 `;
 
 const ProductRow = styled.div`
+  font-size: 0.9rem;
   span {
     color: var(--primary);
   }
@@ -34,7 +35,7 @@ const Address = styled.div`
 export default function SingleOrder({ line_items, createdAt, ...rest }) {
   return (
     <StyledOrder>
-      <div>
+      <div className='w-[40%]'>
         <time>{new Date(createdAt).toLocaleString()}</time>
         <Address>
           {rest.name}
@@ -45,7 +46,7 @@ export default function SingleOrder({ line_items, createdAt, ...rest }) {
           {rest.postalCode} {rest.city}, {rest.country}
         </Address>
       </div>
-      <div>
+      <div className='w-[40%]'>
         {line_items.map((item) => (
           <ProductRow key={item.price_data.product_data.name}>
             <span>{item.quantity} x</span> {item.price_data.product_data.name}

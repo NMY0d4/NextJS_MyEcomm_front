@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function StarSolid({ className = 'w-6 h-6' }) {
+export default function StarSolid({ className }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
