@@ -15,9 +15,12 @@ import SingleOrder from '@/components/SingleOrder';
 
 const ColsWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr;
   gap: 40px;
   margin: 40px 0;
+  @media screen and (min-width: 900px) {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
 `;
 
 const initialState = {
@@ -31,8 +34,11 @@ const initialState = {
 
 const WishedProductsGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 20px;
+  @media screen and (min-width: 520px) {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 export default function AccountPage() {
