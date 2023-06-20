@@ -118,7 +118,7 @@ export default function Featured({ product }) {
             >
               <Image
                 src={product.images[0]}
-                alt='photo Macbook pro'
+                alt={`photo${product.productName}`}
                 layout='fill'
                 objectFit='contain'
                 priority

@@ -14,8 +14,7 @@ const StyledProductsGrid = styled.div`
   }
 `;
 
-export default function ProductsGrid({ products, wishedProducts = [] }) {
-  console.log(wishedProducts);
+export default function ProductsGrid({ products, wishedProducts = [] }) { 
   return (
     <StyledProductsGrid>
       {products?.length > 0 &&
