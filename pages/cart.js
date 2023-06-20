@@ -1,9 +1,9 @@
+// import Image from 'next/legacy/image';
 import Center from '@/components/Center';
 import MainBtn from '@/components/ui/MainBtn';
 import Table from '@/components/ui/Table';
 import { CartContext } from '@/store/CartContext';
 import axios from 'axios';
-import Image from 'next/legacy/image';
 import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsFillCartDashFill, BsFillCartPlusFill } from 'react-icons/bs';
@@ -230,12 +230,10 @@ export default function CartPage() {
                           <ProductInfoCell>
                             <ProductImageBox>
                               <ImageWrapper>
-                                <Image
+                                <img
                                   src={product.images[0]}
                                   alt={product.productName}
-                                  layout='fill'
-                                  objectFit='contain'
-                                  priority
+                                  className='object-contain'
                                 />
                               </ImageWrapper>
                             </ProductImageBox>

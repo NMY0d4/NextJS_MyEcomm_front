@@ -1,4 +1,4 @@
-import Image from 'next/legacy/image';
+// import Image from 'next/legacy/image';
 import styled from 'styled-components';
 import MainBtn from './ui/MainBtn';
 import CartIcon from './icons/CartIcon';
@@ -159,12 +159,10 @@ export default function ProductBox({
           </WishlistButton>
         )}
         <div className='img-product'>
-          <Image
+          <img
             src={images[0]}
             alt={`photo ${title}`}
-            layout='fill'
-            objectFit='contain'
-            priority
+            className='object-scale-down w-full h-full'
           />
           <ImageOverlay className={isAddingToCart ? 'show-overlay' : ''}>
             <div className='overlay-text'>Added to Cart</div>
