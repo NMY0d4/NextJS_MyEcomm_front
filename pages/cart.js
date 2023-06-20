@@ -136,7 +136,7 @@ export default function CartPage() {
     if (!session) return;
 
     axios.get('/api/address').then((res) => {
-      setCustomer(res.data);
+      res.data && setCustomer(res.data);
     });
   }, [session]);
 

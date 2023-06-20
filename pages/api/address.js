@@ -2,11 +2,11 @@ import { mongooseConnect } from '@/lib/mongoose';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
 import { Address } from '@/models/Address';
+import { add } from 'lodash';
 
 export default async function handle(req, res) {
-  
   await mongooseConnect();
-  
+
   const { user } = await getServerSession(req, res, authOptions);
 
   if (req.method === 'PUT') {
@@ -18,6 +18,7 @@ export default async function handle(req, res) {
     }
   }
   if (req.method === 'GET') {
-    res.json(await Address.findOne({ userEmail: user.email }));
+    const address = await Address.findOne({ userEmail: user.email });
+    res.json(address ? address : false);
   }
 }

@@ -85,8 +85,9 @@ export default function AccountPage() {
     setAddressLoaded(false);
     setWishlistLoaded(false);
     setOrderLoaded(false);
+
     axios.get(`/api/address`).then((res) => {
-      setUserAddress(res.data);
+      res.data && setUserAddress(res.data);
       setAddressLoaded(true);
     });
     axios.get('/api/wishlist').then((res) => {
