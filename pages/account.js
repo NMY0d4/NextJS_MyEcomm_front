@@ -86,18 +86,27 @@ export default function AccountPage() {
     setWishlistLoaded(false);
     setOrderLoaded(false);
 
-    axios.get(`/api/address`).then((res) => {
-      res.data && setUserAddress(res.data);
-      setAddressLoaded(true);
-    });
-    axios.get('/api/wishlist').then((res) => {
-      setWishedProducts(res.data.map((wp) => wp.product));
-      setWishlistLoaded(true);
-    });
-    axios.get('/api/orders').then((res) => {
-      setOrders(res.data);
-      setOrderLoaded(true);
-    });
+    axios
+      .get(`/api/address`)
+      .then((res) => {
+        res.data && setUserAddress(res.data);
+        setAddressLoaded(true);
+      })
+      .catch((err) => console.error(err));
+    axios
+      .get('/api/wishlist')
+      .then((res) => {
+        setWishedProducts(res.data.map((wp) => wp.product));
+        setWishlistLoaded(true);
+      })
+      .catch((err) => console.error(err));
+    axios
+      .get('/api/orders')
+      .then((res) => {
+        setOrders(res.data);
+        setOrderLoaded(true);
+      })
+      .catch((err) => console.error(err));
   }, [session]);
 
   function productRemovedFromWhishlist(idToRemove) {
