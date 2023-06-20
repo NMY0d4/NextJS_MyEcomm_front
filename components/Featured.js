@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import Center from './Center';
 import styled from 'styled-components';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import MainBtn from './ui/MainBtn';
 import ButtonLink from './ui/ButtonLink';
 import CartIcon from './icons/CartIcon';
@@ -116,12 +116,10 @@ export default function Featured({ product }) {
               delay={300}
               className='relative rounded-lg overflow-hidden w-full h-full'
             >
-              <Image
+              <img
                 src={product.images[0]}
                 alt={`photo${product.productName}`}
-                layout='fill'
-                objectFit='contain'
-                priority
+                className='object-contain'
               />
             </RevealWrapper>
           </Column>
