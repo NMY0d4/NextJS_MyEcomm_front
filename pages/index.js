@@ -49,44 +49,32 @@ export default function HomePage({
           >
             <div className='text-gray-800 font-semibold text-sm'>
               <p className='mb-4'>
-                This application is a fictional project developed for portfolio
-                purposes, demonstrating various functionalities that can be
-                implemented in an e-commerce website.
+                This application is a fictional e-commerce project developed for
+                portfolio purposes, showcasing various functionalities that can
+                be implemented.
               </p>
               <p className='mb-4'>
-                It&apos;s important to note that certain features typically
-                found on a real website, such as cookie consent, terms and
-                conditions, and legal notices, have been intentionally excluded
-                for simplicity. In a real-world scenario, these elements would
-                be essential and require careful consideration and
-                implementation, along with other important aspects like SEO
-                optimization and validation schemes.
+                Please note that certain real-world website features, such as
+                cookie consent, terms and conditions, and legal notices, have
+                been excluded for simplicity.
               </p>
               <p className='mb-4'>
-                One noteworthy feature is the integration of the Stripe payment
-                gateway. In this demonstration, the Stripe validation process is
-                set to test mode, allowing users to simulate transactions using
-                dummy data. When testing the payment functionality, you can
-                enter the card number as &quot;42&quot; along with other
-                fictitious details. Please note that this is for demonstration
-                purposes only and should not be used for real transactions.
+                The integration of the Stripe payment gateway is a noteworthy
+                feature. In this demonstration, Stripe validation is set to test
+                mode, allowing users to simulate transactions using dummy data.
               </p>
               <p className='mb-4'>
                 While this application provides a comprehensive overview of
-                various features that can be implemented in an e-commerce site,
-                it`&apos;s important to remember that in a real-world scenario,
-                additional considerations and configurations would be necessary.
-                These may include security measures, performance optimization,
-                scalability, and compliance with legal requirements.
+                various e-commerce features, it`&lsquo;s important to consider
+                additional factors in a real-world scenario, such as security,
+                performance optimization, scalability, and legal compliance.
               </p>
               <p>
                 Overall, this application serves as a showcase for the
-                capabilities and potential of an e-commerce website, providing
-                insights into different functionalities that can be integrated.
-                However, it`&apos;s crucial to adapt and tailor these features
-                to the specific needs and requirements of a real e-commerce
-                project, ensuring the inclusion of essential elements and
-                adherence to industry best practices.
+                capabilities of an e-commerce website, providing insights into
+                different functionalities. However, it`&lsquo;s crucial to adapt
+                and tailor these features to the specific needs and requirements
+                of a real e-commerce project, following industry best practices.
               </p>
             </div>
           </Modal>

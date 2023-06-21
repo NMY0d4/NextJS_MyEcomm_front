@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import Center from './Center';
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
 import BarsIcon from './icons/Bars';
 import Image from 'next/legacy/image';
@@ -130,7 +130,7 @@ const SideIcons = styled.div`
 
 export default function Header() {
   const { cartProducts } = useContext(CartContext);
-  const [showMobileNav, setShowMobileNav] = useState(false);
+  const [showMobileNav, setShowMobileNav] = useState(true);
   const [hideMobileNav, setHideMobileNav] = useState(false);
   const navButtonRef = useRef(null);
 
@@ -150,6 +150,10 @@ export default function Header() {
       }
     }
   };
+
+  useEffect(() => {
+    handleShowResponsive();
+  }, []);
 
   return (
     <StyledHeader>

@@ -10,7 +10,12 @@ import HeartSolidIcon from './icons/HeartSolidIcon';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 
-const ProductWrapper = styled.div``;
+const ProductWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 
 const WhiteBox = styled(Link)`
   position: relative;
@@ -43,14 +48,18 @@ const Title = styled(Link)`
 const ProductInfoBox = styled.div`
   margin-top: 5px;
   text-align: center;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const PriceRow = styled.div`
   display: block;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 5px;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     display: flex;
   }
 `;
@@ -58,7 +67,7 @@ const PriceRow = styled.div`
 const Price = styled.div`
   font-size: 1.2rem;
   font-weight: 600;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     font-size: 1.5rem;
   }
 `;

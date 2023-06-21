@@ -38,7 +38,7 @@ const Columnswrapper = styled.div`
     font-weight: bold;
   }
 
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     grid-template-columns: 1.3fr 0.7fr;
   }
 `;
@@ -58,7 +58,7 @@ const ProductImageBox = styled.div`
   box-shadow: var(--box-shadow);
   border-radius: 10px;
   overflow: hidden;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     padding: 15px;
     width: 90px;
     height: 90px;
@@ -75,7 +75,7 @@ const QuantityLabel = styled.span`
   padding: 3px;
   margin-right: 4px;
   display: block;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 1024px) {
     display: inline-block;
     padding: 0 3px 0 1px;
   }
