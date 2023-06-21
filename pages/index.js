@@ -39,7 +39,7 @@ export default function HomePage({
 
           <button
             onClick={() => setIsModalOpen(true)}
-            className='fixed flex items-center justify-center gap-2 bottom-4 right-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
+            className='fixed flex items-center justify-center gap-2 bottom-4 right-[46%] bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded'
           >
             <MdNotificationImportant size={20} /> Important
           </button>
