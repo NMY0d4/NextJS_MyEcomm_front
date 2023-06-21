@@ -12,6 +12,7 @@ import Loading from '@/components/ui/Loading';
 import ProductBox from '@/components/ProductBox';
 import Tabs from '@/components/ui/Tabs';
 import SingleOrder from '@/components/SingleOrder';
+import { useSpring, animated } from '@react-spring/web';
 
 const ColsWrapper = styled.div`
   display: grid;
@@ -50,6 +51,13 @@ export default function AccountPage() {
   const [wishedProducts, setWishedProducts] = useState([]);
   const [activeTab, setActiveTab] = useState('Orders');
   const [orders, setOrders] = useState([]);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const springProps = useSpring({
+    opacity: isSaved ? 0 : 1,
+    transform: isSaved ? 'translateY(20px)' : 'translateY(0)',
+    config: { duration: 500 },
+  });
 
   async function logout() {
     await signOut({
@@ -77,7 +85,18 @@ export default function AccountPage() {
 
   async function saveAddress() {
     await axios.put('/api/address', userAddress);
+    setIsSaved(true);
   }
+
+  useEffect(() => {
+    let timeout;
+    if (isSaved) {
+      timeout = setTimeout(() => {
+        setIsSaved(false);
+      }, 2000);
+    }
+    return () => clearTimeout(timeout);
+  }, [isSaved]);
 
   useEffect(() => {
     if (!session) return;
@@ -221,9 +240,12 @@ export default function AccountPage() {
                       onChange={handleInputChange}
                     />
 
-                    <MainBtn onClick={saveAddress} block primary>
-                      Save
-                    </MainBtn>
+                    <animated.div className='mb-5' style={springProps}>
+                      <MainBtn onClick={saveAddress} block primary>
+                        Save
+                      </MainBtn>
+                    </animated.div>
+
                     <hr className='my-3' />
                   </>
                 )}
