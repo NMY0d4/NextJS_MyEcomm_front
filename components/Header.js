@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Center from './Center';
 import { useContext, useRef, useState } from 'react';
 import { CartContext } from '@/store/CartContext';
-// import { CgMenuRound } from 'react-icons/cg';
 import BarsIcon from './icons/Bars';
 import Image from 'next/legacy/image';
 import gmLogo from '@/public/assets/mesLogos/gmLogo.png';
@@ -49,24 +48,64 @@ const StyledNav = styled.nav`
   right: 0;
   padding: 80px 20px;
   background-color: var(--primaryVeryLight);
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  transition-duration: 280ms;
+  &.slide-in {
+    transform: translateX(0%);
+  }
+  &.slide-out {
+    transform: translateX(-100%);
+  }
   @media screen and (min-width: 768px) {
-    display: flex;
+    flex-direction: row;
     position: static;
     padding: 0;
+    &.slide-out {
+      transform: translateX(0);
+    }
   }
 `;
 
 const NavLink = styled(Link)`
-  display: block;
-  color: var(--primaryDark);
+  text-align: center;
+  width: 18%;
+  color: var(--primary);
   min-width: 20px;
-  padding: 10px 0;
+  padding: 0 0;
   svg {
     height: 20px;
   }
   @media screen and (min-width: 768px) {
-    padding: 0;
+    display: block;
+    width: auto;
+  }
+
+  position: relative;
+
+  &:after {
+    content: '';
+    pointer-events: none;
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: var(--primaryDark);
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition-duration: 500ms;
+    transition-property: width, left;
+  }
+
+  &:hover,
+  &:focus {
+    color: var(--primaryDark);
+    &:after {
+      width: 100%;
+      left: 0%;
+    }
   }
 `;
 
