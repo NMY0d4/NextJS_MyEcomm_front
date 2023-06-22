@@ -6,8 +6,11 @@ import gmLogo from '@/public/assets/mesLogos/gmLogo.png';
 const FooterContainer = styled.footer`
   background-color: var(--grayDark);
   color: var(--white);
-  padding: 2rem;
-  margin-top: 3rem;
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  margin-top: 2rem;
 `;
 
 const Logo = styled(Link)`

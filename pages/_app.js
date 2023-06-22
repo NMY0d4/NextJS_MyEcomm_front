@@ -38,6 +38,8 @@ html {
 body{
   background-color: var(--primaryVeryLight);
   color: var(--grayDark);
+  min-height: 100vh;
+  padding-bottom: 8rem;
   
   font-size: 1rem;
   h1 {
